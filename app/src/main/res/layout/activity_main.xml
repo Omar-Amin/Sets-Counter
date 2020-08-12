@@ -29,6 +29,7 @@
         android:rotation="270"
         android:id="@+id/countProgress"
         android:layout_centerInParent="true"
-        android:indeterminateDrawable="@drawable/progress_bar"/>
+        android:progressDrawable="@drawable/progress_bar"
+        style="?android:progressBarStyleHorizontal"/>
 
 </RelativeLayout>

@@ -24,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
         countBackground = findViewById(R.id.counterBackground);
         counter = findViewById(R.id.counter);
         countProgress = findViewById(R.id.countProgress);
-        timer = new Timer(300000,1000,counter);
+        countProgress.setMax(60000);
+        timer = new Timer(300000,10,this);
         timer.start();
     }
 }
