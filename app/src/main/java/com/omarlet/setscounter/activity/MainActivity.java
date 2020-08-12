@@ -6,6 +6,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.omarlet.setscounter.R;
