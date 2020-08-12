@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Sets Counter</string>
     <string name="_66_66">66:66</string>
+    <string name="start">Start</string>
 </resources>

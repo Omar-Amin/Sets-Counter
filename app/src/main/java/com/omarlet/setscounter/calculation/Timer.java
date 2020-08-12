@@ -31,18 +31,19 @@ public class Timer extends CountDownTimer {
         this.progressFirst = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar, null);
         this.progressSecond = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar_secondphase, null);
         this.progressThird = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar_thirdphase, null);
-
     }
 
     @SuppressLint({"SetTextI18n", "UseCompatLoadingForDrawables"})
     @Override
     public void onTick(long l) {
+        // having progress bore taking larger values so it rotates smoothly
         long seconds = (secondsFuture-l)/1000;
         int progressUpdate = (int) (secondsFuture-l);
         long minutes = 0;
         if(seconds >= 60){
             minutes = seconds/60;
             seconds -= minutes*60;
+            // resetting the progress to 0
             progressUpdate -= minutes*60*1000;
         }
         progressBar.setProgress(progressUpdate);
@@ -63,10 +64,7 @@ public class Timer extends CountDownTimer {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
     public void onFinish() {
-        counter.setText("0:00");
-        progressBar.setProgressDrawable(progressFirst);
     }
 }
