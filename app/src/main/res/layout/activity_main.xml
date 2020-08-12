@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity"
+    tools:context=".activity.MainActivity"
     android:background="#FF6969">
 
     <View
@@ -13,12 +13,14 @@
         android:background="@drawable/circle"
         android:layout_centerInParent="true"
         android:id="@+id/counterBackground"/>
+
     <TextView
         android:text="@string/_66_66"
         android:textColor="@android:color/background_light"
         android:layout_height="wrap_content"
         android:textSize="45sp"
         android:layout_width="wrap_content"
+        android:id="@+id/counter"
         android:layout_centerInParent="true"/>
     
     <ProgressBar
