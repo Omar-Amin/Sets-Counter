@@ -101,13 +101,15 @@ public class MainActivity extends AppCompatActivity {
 
     private void startTimer(){
         countBackground.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
                 decrement.setVisibility(View.INVISIBLE);
                 increment.setVisibility(View.INVISIBLE);
                 stopTimer.setVisibility(View.VISIBLE);
-                timer.start();
-                stopTimer();
+                counter.setText("Rest");
+                setsText.setText(String.valueOf(sets));
+                resetTimer();
             }
         });
     }
@@ -118,9 +120,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 timer.cancel();
-                sets++;
                 counter.setText("Rest");
-                setsText.setText(String.valueOf(maxSets-sets));
+                setsText.setText(String.valueOf(sets));
                 if(sets == maxSets) {
                     counter.setText("Finished");
                     nextWorkoutBtn();
@@ -138,6 +139,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 timer.start();
+                sets++;
+                setsText.setText(String.valueOf(sets));
                 stopTimer();
             }
         });
