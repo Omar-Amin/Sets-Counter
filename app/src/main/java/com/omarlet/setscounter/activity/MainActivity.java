@@ -5,12 +5,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.calculation.Timer;
+import com.omarlet.setscounter.ui.BounceEffect;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private int sets = 0;
     private int maxSets = 0;
     private Button decrement, increment;
+    private Animation btnAnim;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
         increment = findViewById(R.id.incrementSet);
         setsText = findViewById(R.id.sets); // TODO: change so it doesn't always start at 4
         maxSets = Integer.parseInt(setsText.getText().toString());
+        btnAnim = AnimationUtils.loadAnimation(this,R.anim.button_animation);
+        btnAnim.setInterpolator(new BounceEffect());
         // in order for it to rotate smoothly
         countProgress.setMax(60000);
         timer = new Timer(300000,10,this);
@@ -44,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         decrement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                decrement.startAnimation(btnAnim);
                 if(maxSets > 1){
                     maxSets--;
                     setsText.setText(String.valueOf(maxSets));
@@ -53,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                increment.startAnimation(btnAnim);
                 if(maxSets < 9){
                     maxSets++;
                     setsText.setText(String.valueOf(maxSets));
