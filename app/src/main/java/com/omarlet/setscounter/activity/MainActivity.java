@@ -15,10 +15,11 @@ import com.omarlet.setscounter.calculation.Timer;
 public class MainActivity extends AppCompatActivity {
 
     private View countBackground;
-    private TextView counter,setsText;
+    private TextView counter, setsText;
     private ProgressBar countProgress;
     private Timer timer;
     private int sets = 0;
+    private int maxSets = 0;
     private Button decrement, increment;
 
     @Override
@@ -30,11 +31,34 @@ public class MainActivity extends AppCompatActivity {
         countProgress = findViewById(R.id.countProgress);
         decrement = findViewById(R.id.decrementSet);
         increment = findViewById(R.id.incrementSet);
-        setsText = findViewById(R.id.sets);
+        setsText = findViewById(R.id.sets); // TODO: change so it doesn't always start at 4
+        maxSets = Integer.parseInt(setsText.getText().toString());
         // in order for it to rotate smoothly
         countProgress.setMax(60000);
         timer = new Timer(300000,10,this);
         startTimer();
+        setupButtons();
+    }
+
+    private void setupButtons() {
+        decrement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(maxSets > 1){
+                    maxSets--;
+                    setsText.setText(String.valueOf(maxSets));
+                }
+            }
+        });
+        increment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(maxSets < 9){
+                    maxSets++;
+                    setsText.setText(String.valueOf(maxSets));
+                }
+            }
+        });
     }
 
     private void nextWorkout(){
@@ -46,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
                 increment.setVisibility(View.VISIBLE);
                 counter.setText("Start");
                 countProgress.setProgress(0);
+                setsText.setText(String.valueOf(maxSets));
                 startTimer();
             }
         });
@@ -70,8 +95,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 timer.cancel();
                 sets++;
-                counter.setText("Sets: " + sets);
-                if(sets == 4) {
+                counter.setText("Rest");
+                setsText.setText(String.valueOf(maxSets-sets));
+                if(sets == maxSets) {
+                    counter.setText("Finished");
                     nextWorkout();
                     sets = 0;
                 } else {
