@@ -64,12 +64,6 @@ public class Timer extends CountDownTimer {
 
         // maybe for later
         /*
-        2 op til ff -
-        1 ned til 66 -
-        3 op til ff -
-        2 ned til 66 -
-        1 op til ff -
-        3 ned til ff
         if(minutes == 1){
             progressBar.setProgressDrawable(progressSecond);
         } else if (minutes >= 2){
@@ -143,7 +137,6 @@ public class Timer extends CountDownTimer {
                 twoDown = true;
             }
         }
-        System.out.println(color);
         layout.setBackgroundColor(Color.parseColor(color));
     }
 

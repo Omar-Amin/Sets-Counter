@@ -15,6 +15,57 @@
         android:layout_centerInParent="true"
         android:id="@+id/counterBackground"/>
 
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:fontFamily="monospace"
+        android:text="@string/increment"
+        android:textAlignment="center"
+        android:textSize="45sp"
+        android:textColor="#f66"
+        tools:targetApi="jelly_bean"
+        android:gravity="center|bottom"
+        android:paddingBottom="2dp"
+        android:background="@drawable/increment_btn"
+        android:id="@+id/incrementSet"
+        android:layout_above="@id/counterBackground"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="90dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="90dp"
+        android:layout_marginBottom="45dp"/>
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:fontFamily="monospace"
+        android:text="@string/decrement"
+        android:textAlignment="center"
+        android:textSize="45sp"
+        android:textColor="#f66"
+        tools:targetApi="jelly_bean"
+        android:gravity="center|bottom"
+        android:paddingBottom="5dp"
+        android:background="@drawable/increment_btn"
+        android:id="@+id/decrementSet"
+        android:layout_above="@id/counterBackground"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="90dp"
+        android:layout_marginRight="90dp"
+        android:layout_marginBottom="45dp"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="@string/_1"
+        android:textColor="@android:color/background_light"
+        android:layout_height="wrap_content"
+        android:textSize="40sp"
+        android:layout_width="wrap_content"
+        android:id="@+id/sets"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/counterBackground"
+        android:layout_marginBottom="50dp"/>
+
     <TextView
         android:text="@string/start"
         android:textColor="@android:color/background_light"

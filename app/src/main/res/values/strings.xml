@@ -2,4 +2,7 @@
     <string name="app_name">Sets Counter</string>
     <string name="_66_66">66:66</string>
     <string name="start">Start</string>
+    <string name="increment">+</string>
+    <string name="decrement">-</string>
+    <string name="_1">1</string>
 </resources>
