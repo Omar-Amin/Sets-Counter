@@ -6,4 +6,6 @@
     <string name="decrement">-</string>
     <string name="_1">1</string>
     <string name="_4">4</string>
+    <string name="stop">STOP</string>
+    <string name="stop_workout">Stop workout</string>
 </resources>

@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private int sets = 0;
     private int maxSets = 0;
-    private Button decrement, increment;
+    private Button decrement, increment, stopTimer;
     private Animation btnAnim;
 
     @Override
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         maxSets = Integer.parseInt(setsText.getText().toString());
         btnAnim = AnimationUtils.loadAnimation(this,R.anim.button_animation);
         btnAnim.setInterpolator(new BounceEffect());
+        stopTimer = findViewById(R.id.stopTimer);
         // in order for it to rotate smoothly
         countProgress.setMax(60000);
         timer = new Timer(300000,10,this);
@@ -67,22 +68,36 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private void nextWorkout(){
-        countBackground.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
+        stopTimer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                decrement.setVisibility(View.VISIBLE);
-                increment.setVisibility(View.VISIBLE);
-                counter.setText("Start");
-                countProgress.setProgress(0);
-                setsText.setText(String.valueOf(maxSets));
-                startTimer();
+                nextWorkout();
+            }
+        });
+
+    }
+
+    private void nextWorkoutBtn(){
+        countBackground.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextWorkout();
             }
         });
     }
+
+    @SuppressLint("SetTextI18n")
+    private void nextWorkout(){
+        timer.cancel();
+        decrement.setVisibility(View.VISIBLE);
+        increment.setVisibility(View.VISIBLE);
+        counter.setText("Start");
+        countProgress.setProgress(0);
+        setsText.setText(String.valueOf(maxSets));
+        startTimer();
+        stopTimer.setVisibility(View.INVISIBLE);
+    }
+
 
     private void startTimer(){
         countBackground.setOnClickListener(new View.OnClickListener() {
@@ -90,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 decrement.setVisibility(View.INVISIBLE);
                 increment.setVisibility(View.INVISIBLE);
+                stopTimer.setVisibility(View.VISIBLE);
                 timer.start();
                 stopTimer();
             }
@@ -107,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 setsText.setText(String.valueOf(maxSets-sets));
                 if(sets == maxSets) {
                     counter.setText("Finished");
-                    nextWorkout();
+                    nextWorkoutBtn();
                     sets = 0;
                 } else {
                     resetTimer();
