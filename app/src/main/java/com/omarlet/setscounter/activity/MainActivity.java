@@ -89,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
     @SuppressLint("SetTextI18n")
     private void nextWorkout(){
         timer.cancel();
+        sets = 0;
         decrement.setVisibility(View.VISIBLE);
         increment.setVisibility(View.VISIBLE);
         counter.setText("Start");
@@ -125,7 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 if(sets == maxSets) {
                     counter.setText("Finished");
                     nextWorkoutBtn();
-                    sets = 0;
                 } else {
                     resetTimer();
                 }
