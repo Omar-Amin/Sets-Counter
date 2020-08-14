@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.addWorkout"
+    tools:context=".activity.AddWorkout"
     android:background="#fff">
 
     <EditText
@@ -24,12 +24,13 @@
         android:inputType="text"
         tools:targetApi="lollipop"
         android:gravity="center_horizontal"
+        android:imeOptions="actionDone"
         tools:ignore="Autofill" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:padding="8dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="25dp"
         android:layout_height="wrap_content"
         android:layout_below="@id/addExercise">
 
@@ -37,6 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
+            android:textStyle="bold"
             android:text="@string/exercise_name"
             android:textColor="#f66"
             android:textSize="20sp"
@@ -49,6 +51,7 @@
             android:text="@string/sets"
             android:textColor="#f66"
             android:textSize="20sp"
+            android:textStyle="bold"
             android:id="@+id/viewSets"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
@@ -64,6 +67,7 @@
             android:textSize="20sp"
             android:layout_marginRight="20dp"
             android:layout_marginEnd="20dp"
+            android:textStyle="bold"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             tools:ignore="RelativeOverlap" />
@@ -86,7 +90,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="340dp"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="75dp"
         android:layout_below="@id/addExercise"
         android:id="@+id/exerciseList"/>
 

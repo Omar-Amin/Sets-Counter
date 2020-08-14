@@ -7,18 +7,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SlidingDrawer;
 import android.widget.TextView;
 
 import com.omarlet.setscounter.R;
@@ -143,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             addWorkout.startAnimation(btnAnim);
-                            Intent addWorkout = new Intent(MainActivity.this, com.omarlet.setscounter.activity.addWorkout.class);
+                            Intent addWorkout = new Intent(MainActivity.this, AddWorkout.class);
                             MainActivity.this.startActivity(addWorkout);
                         }
                     });

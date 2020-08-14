@@ -11,7 +11,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.addWorkout"></activity>
+        <activity android:name=".activity.AddWorkout"></activity>
         <activity
             android:name=".activity.MainActivity2"
             android:label="@string/title_activity_main2"

@@ -30,6 +30,6 @@
     <string name="sets">Sets</string>
     <string name="name">Name</string>
     <string name="exercise_name">Exercise name</string>
-    <string name="weight">Weight</string>
     <string name="_150">150</string>
+    <string name="weight">Weight</string>
 </resources>

@@ -27,7 +27,7 @@ public class ExerciseRecyclerView extends RecyclerView.Adapter<ExerciseRecyclerV
     @NonNull
     @Override
     public ExerciseRecyclerView.ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.exercise_layout,parent);
+        View view = LayoutInflater.from(context).inflate(R.layout.exercise_layout,parent,false);
         return new ExerciseViewHolder(view);
     }
 
@@ -35,8 +35,8 @@ public class ExerciseRecyclerView extends RecyclerView.Adapter<ExerciseRecyclerV
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         Exercise exercise = exercises.get(position);
         holder.exerciseName.setText(exercise.getName());
-        holder.exerciseSets.setText(exercise.getSets());
-        holder.exerciseweight.setText(exercise.getWeight());
+        holder.exerciseSets.setText(String.valueOf(exercise.getSets()));
+        holder.exerciseweight.setText(String.valueOf(exercise.getWeight()));
     }
 
     @Override
