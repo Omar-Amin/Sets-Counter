@@ -25,4 +25,11 @@
     <string name="choose_name">Choose name</string>
     <string name="choose_workout_name">Choose workout name</string>
     <string name="add_exercise">Add exercise</string>
+    <string name="sets_1">Sets: 1</string>
+    <string name="weight_150">Weight: 150</string>
+    <string name="sets">Sets</string>
+    <string name="name">Name</string>
+    <string name="exercise_name">Exercise name</string>
+    <string name="weight">Weight</string>
+    <string name="_150">150</string>
 </resources>

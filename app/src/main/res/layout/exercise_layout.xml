@@ -4,19 +4,41 @@
     android:layout_width="match_parent"
     android:padding="8dp"
     android:layout_height="wrap_content"
-    android:id="@+id/img_send_layout">
-
+    android:id="@+id/exerciseLayout">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:text="@string/stop_workout"
+        android:text="@string/exercise_name"
         android:textColor="#f66"
         android:textSize="20sp"
-        android:maxLines="1"
-        android:maxWidth="225dp"
+        android:maxLength="15"
         android:id="@+id/exerciseName"
         android:layout_marginStart="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_1"
+        android:textColor="#f66"
+        android:textSize="20sp"
+        android:id="@+id/exerciseSets"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="145dp"
+        android:layout_marginEnd="145dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/_150"
+        android:textColor="#f66"
+        android:textSize="20sp"
+        android:id="@+id/exerciseWeight"
+        android:layout_marginRight="25dp"
+        android:layout_marginEnd="25dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
 </RelativeLayout>

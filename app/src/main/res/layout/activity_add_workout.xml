@@ -26,6 +26,50 @@
         android:gravity="center_horizontal"
         tools:ignore="Autofill" />
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="8dp"
+        android:layout_marginTop="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/addExercise">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="@string/exercise_name"
+            android:textColor="#f66"
+            android:textSize="20sp"
+            android:id="@+id/viewName"
+            android:layout_marginStart="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sets"
+            android:textColor="#f66"
+            android:textSize="20sp"
+            android:id="@+id/viewSets"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="135dp"
+            android:layout_marginEnd="135dp"
+            tools:ignore="RelativeOverlap" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weight"
+            android:textColor="#f66"
+            android:textSize="20sp"
+            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            tools:ignore="RelativeOverlap" />
+
+    </RelativeLayout>
+
     <Button
         android:layout_width="140dp"
         android:layout_height="wrap_content"
@@ -41,8 +85,8 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        android:layout_marginTop="30dp"
+        android:layout_height="340dp"
+        android:layout_marginTop="65dp"
         android:layout_below="@id/addExercise"
         android:id="@+id/exerciseList"/>
 
