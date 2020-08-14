@@ -8,12 +8,6 @@
     android:background="#f66"
     android:id="@+id/mainBackground">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-
-        android:id="@+id/navigationView"/>
-
     <View
         android:layout_width="200dp"
         android:layout_height="200dp"

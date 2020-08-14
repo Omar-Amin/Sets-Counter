@@ -106,13 +106,20 @@ public class MainActivity extends AppCompatActivity {
                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.choose_workout,null);
 
                     RelativeLayout background = viewGroup.findViewById(R.id.background);
+                    TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
                     // TODO: Change to listview and add workout
-                    final Button listViewWorkout = viewGroup.findViewById(R.id.testing);
+                    final LinearLayout listViewWorkout = viewGroup.findViewById(R.id.testing);
 
+                    // calculating the size of the menu according to the screen size
                     int layoutSize = findViewById(R.id.mainBackground).getMeasuredHeight();
                     RelativeLayout.LayoutParams btnParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (layoutSize*0.75));
                     btnParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
                     listViewWorkout.setLayoutParams(btnParams);
+
+                    // setup so that when touching the background it closes the window
+                    RelativeLayout.LayoutParams backgroundParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (layoutSize*0.22));
+                    backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                    background.setLayoutParams(backgroundParams);
 
                     final PopupWindow popupMenu = new PopupWindow(viewGroup, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
                     background.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +127,7 @@ public class MainActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             listViewWorkout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_down));
                             Handler handler = new Handler();
+                            // let the animation play before actually closing it
                             handler.postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
@@ -129,8 +137,16 @@ public class MainActivity extends AppCompatActivity {
                             opened = false;
                         }
                     });
+
+                    addWorkout.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                        }
+                    });
+
                     popupMenu.setAnimationStyle(Animation.ABSOLUTE);
-                    popupMenu.showAsDropDown(chooseWorkout,0,100);
+                    popupMenu.showAsDropDown(chooseWorkout);
                     listViewWorkout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_up));
                 }
 

@@ -1,20 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/workoutSlider">
+    android:id="@+id/workoutSlider"
+    android:background="#33000000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="#fff"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/testing"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="@string/add_a_new_workout"
+            android:paddingTop="7dp"
+            android:background="@drawable/add_workout"
+            android:textAllCaps="false"
+            android:textColor="#f66"
+            android:textSize="25sp"
+            android:id="@+id/addWorkout"
+            android:gravity="center_horizontal" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/workoutList"/>
+
+    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/background"
-        android:background="#33000000"/>
+        android:id="@+id/background" />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#fff"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/testing"/>
+
+
 
 </RelativeLayout>
