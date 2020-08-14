@@ -3,6 +3,7 @@ package com.omarlet.setscounter.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -106,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.choose_workout,null);
 
                     RelativeLayout background = viewGroup.findViewById(R.id.background);
-                    TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
+                    final TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
                     // TODO: Change to listview and add workout
                     final LinearLayout listViewWorkout = viewGroup.findViewById(R.id.testing);
 
@@ -141,7 +142,9 @@ public class MainActivity extends AppCompatActivity {
                     addWorkout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-
+                            addWorkout.startAnimation(btnAnim);
+                            Intent addWorkout = new Intent(MainActivity.this, com.omarlet.setscounter.activity.addWorkout.class);
+                            MainActivity.this.startActivity(addWorkout);
                         }
                     });
 

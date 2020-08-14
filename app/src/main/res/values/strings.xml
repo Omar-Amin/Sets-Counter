@@ -21,4 +21,8 @@
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
     <string name="add_a_new_workout">Add a new workout</string>
+    <string name="save">Save</string>
+    <string name="choose_name">Choose name</string>
+    <string name="choose_workout_name">Choose workout name</string>
+    <string name="add_exercise">Add exercise</string>
 </resources>
