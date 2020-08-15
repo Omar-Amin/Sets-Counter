@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -20,12 +22,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.adapter.ExerciseRecyclerView;
 import com.omarlet.setscounter.model.Exercise;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.ExerciseDialog;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +76,18 @@ public class AddWorkout extends AppCompatActivity {
         saveWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                if(!workoutName.getText().toString().isEmpty()){
+                    workout.setName(workoutName.getText().toString());
+                    SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
+                    int amount = pref.getInt("amount",0);
+                    @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = pref.edit();
+                    Gson gson = new Gson();
+                    String json = gson.toJson(workout);
+                    editor.putString("workout"+amount, json);
+                    editor.putInt("amount",amount+1);
+                    editor.apply();
+                    finish();
+                }
             }
         });
     }

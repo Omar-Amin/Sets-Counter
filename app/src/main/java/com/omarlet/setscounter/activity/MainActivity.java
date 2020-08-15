@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,9 +19,14 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.calculation.Timer;
+import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.BounceEffect;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private int maxSets = 0;
     private Button decrement, increment, stopTimer, chooseWorkout;
     private Animation btnAnim,slideUp, slideDown;
+    private List<Workout> workouts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +65,7 @@ public class MainActivity extends AppCompatActivity {
         maxSets = Integer.parseInt(setsText.getText().toString());
 
         timer = new Timer(300000,10,this);
+        getWorkouts();
         startTimer();
         setupButtons();
         setupSlide();
@@ -145,9 +153,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
+                    listViewWorkout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_up));
                     popupMenu.setAnimationStyle(Animation.ABSOLUTE);
                     popupMenu.showAsDropDown(chooseWorkout);
-                    listViewWorkout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_up));
                 }
 
             }
@@ -223,5 +231,26 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getWorkouts();
+    }
+
+    private void getWorkouts() {
+        SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
+        int amount = pref.getInt("amount",0);
+        Gson gson = new Gson();
+        for (int i = 0; i < amount; i++) {
+            String json = pref.getString("workout"+i,"");
+            assert json != null;
+            if(!json.isEmpty()){
+                Workout workout = gson.fromJson(json,Workout.class);
+                workouts.add(workout);
+            }
+        }
+    }
+
 
 }
