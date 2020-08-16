@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:padding="8dp"
+    android:layout_height="wrap_content"
+    android:id="@+id/workoutLayout">
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/workout_name"
+        android:textColor="#f66"
+        android:textSize="28sp"
+        android:textAllCaps="false"
+        android:background="@drawable/add_workout"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/workoutListName" />
+
+</RelativeLayout>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:padding="8dp"
     android:layout_height="wrap_content"
@@ -27,7 +28,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="163dp"
-        android:layout_marginEnd="163dp"/>
+        android:layout_marginEnd="163dp"
+        tools:ignore="RelativeOverlap" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -41,6 +43,7 @@
         android:layout_marginEnd="20dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:gravity="end" />
+        android:gravity="end"
+        tools:ignore="RelativeOverlap" />
 
 </RelativeLayout>

@@ -1,6 +1,8 @@
 package com.omarlet.setscounter.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.omarlet.setscounter.R;
+import com.omarlet.setscounter.adapter.WorkoutRecyclerView;
 import com.omarlet.setscounter.calculation.Timer;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.BounceEffect;
@@ -39,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Button decrement, increment, stopTimer, chooseWorkout;
     private Animation btnAnim,slideUp, slideDown;
     private List<Workout> workouts = new ArrayList<>();
+    private RecyclerView workoutList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean opened = false;
 
+
     private void setupSlide(){
         chooseWorkout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,10 +116,12 @@ public class MainActivity extends AppCompatActivity {
                     LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(LAYOUT_INFLATER_SERVICE);
                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.choose_workout,null);
 
+                    setupWorkout(viewGroup);
+                    updateList();
+
                     RelativeLayout background = viewGroup.findViewById(R.id.background);
                     final TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
-                    // TODO: Change to listview and add workout
-                    final LinearLayout listViewWorkout = viewGroup.findViewById(R.id.testing);
+                    final RelativeLayout listViewWorkout = viewGroup.findViewById(R.id.listLayout);
 
                     // calculating the size of the menu according to the screen size
                     int layoutSize = findViewById(R.id.mainBackground).getMeasuredHeight();
@@ -159,6 +166,17 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
+
+            private void updateList() {
+                workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts));
+            }
+
+            private void setupWorkout(ViewGroup viewGroup) {
+                workoutList = viewGroup.findViewById(R.id.workoutList);
+                LinearLayoutManager lm = new LinearLayoutManager(MainActivity.this);
+                workoutList.setLayoutManager(lm);
+            }
+
         });
     }
 
@@ -238,6 +256,7 @@ public class MainActivity extends AppCompatActivity {
         getWorkouts();
     }
 
+    // retrieves each workout created
     private void getWorkouts() {
         SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
         int amount = pref.getInt("amount",0);
@@ -246,11 +265,10 @@ public class MainActivity extends AppCompatActivity {
             String json = pref.getString("workout"+i,"");
             assert json != null;
             if(!json.isEmpty()){
-                Workout workout = gson.fromJson(json,Workout.class);
+                Workout workout = gson.fromJson(json, Workout.class);
                 workouts.add(workout);
             }
         }
     }
-
 
 }
