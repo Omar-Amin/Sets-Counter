@@ -5,13 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.setscounter.R;
-import com.omarlet.setscounter.model.Exercise;
 import com.omarlet.setscounter.model.Workout;
 
 import java.util.List;
@@ -20,17 +18,19 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
 
     private Context context;
     private List<Workout> workouts;
+    private OnWorkoutClick onWorkoutClick;
 
-    public WorkoutRecyclerView(Context context, List<Workout> workouts){
+    public WorkoutRecyclerView(Context context, List<Workout> workouts, OnWorkoutClick onWorkoutClick){
         this.context = context;
         this.workouts = workouts;
+        this.onWorkoutClick = onWorkoutClick;
     }
 
     @NonNull
     @Override
     public WorkoutRecyclerView.WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.workout_layout,parent,false);
-        return new WorkoutRecyclerView.WorkoutViewHolder(view);
+        return new WorkoutViewHolder(view,onWorkoutClick);
     }
 
     @Override
@@ -47,11 +47,25 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
     class WorkoutViewHolder extends RecyclerView.ViewHolder {
 
         Button workoutName;
+        OnWorkoutClick onWorkoutClick;
 
-        public WorkoutViewHolder(@NonNull View itemView) {
+        public WorkoutViewHolder(@NonNull final View itemView, final OnWorkoutClick onWorkoutClick){
             super(itemView);
             workoutName = itemView.findViewById(R.id.workoutListName);
+            this.onWorkoutClick = onWorkoutClick;
+            workoutName.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onWorkoutClick.onWorkoutClick(getAdapterPosition());
+                }
+            });
         }
+
+
+    }
+
+    public interface OnWorkoutClick{
+        void onWorkoutClick(int position);
     }
 
 }

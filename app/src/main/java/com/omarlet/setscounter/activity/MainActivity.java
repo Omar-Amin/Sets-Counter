@@ -15,7 +15,6 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -31,7 +30,7 @@ import com.omarlet.setscounter.ui.BounceEffect;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements WorkoutRecyclerView.OnWorkoutClick {
 
     private View countBackground;
     private TextView counter, setsText;
@@ -43,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private Animation btnAnim,slideUp, slideDown;
     private List<Workout> workouts = new ArrayList<>();
     private RecyclerView workoutList;
+    private Workout chosenWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean opened = false;
 
+    private RelativeLayout background;
 
     private void setupSlide(){
         chooseWorkout.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
                     setupWorkout(viewGroup);
                     updateList();
 
-                    RelativeLayout background = viewGroup.findViewById(R.id.background);
+                    background = viewGroup.findViewById(R.id.background);
                     final TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
                     final RelativeLayout listViewWorkout = viewGroup.findViewById(R.id.listLayout);
 
@@ -168,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             private void updateList() {
-                workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts));
+                workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts, MainActivity.this));
             }
 
             private void setupWorkout(ViewGroup viewGroup) {
@@ -179,6 +180,8 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
+
+
 
     private void nextWorkoutBtn(){
         countBackground.setOnClickListener(new View.OnClickListener() {
@@ -271,4 +274,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onWorkoutClick(int position) {
+        System.out.println(workouts.get(position).getName());
+        background.callOnClick();
+    }
 }
