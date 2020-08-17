@@ -181,8 +181,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         });
     }
 
-
-
     private void nextWorkoutBtn(){
         countBackground.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -277,6 +275,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     @Override
     public void onWorkoutClick(int position) {
         System.out.println(workouts.get(position).getName());
+        chosenWorkout = workouts.get(position);
         background.callOnClick();
     }
 }
