@@ -24,6 +24,7 @@ import com.google.gson.Gson;
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.adapter.WorkoutRecyclerView;
 import com.omarlet.setscounter.calculation.Timer;
+import com.omarlet.setscounter.model.Exercise;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.BounceEffect;
 
@@ -33,7 +34,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements WorkoutRecyclerView.OnWorkoutClick {
 
     private View countBackground;
-    private TextView counter, setsText;
+    private TextView counter, setsText, showName, showExercise;
     private ProgressBar countProgress;
     private Timer timer;
     private int sets = 0;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private Button decrement, increment, stopTimer, chooseWorkout;
     private Animation btnAnim,slideUp, slideDown;
     private List<Workout> workouts = new ArrayList<>();
+    private List<Exercise> exercises = new ArrayList<>();
     private RecyclerView workoutList;
     private Workout chosenWorkout;
 
@@ -67,6 +69,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         // sets
         setsText = findViewById(R.id.sets); // TODO: change so it doesn't always start at 4
         maxSets = Integer.parseInt(setsText.getText().toString());
+        // workout and exercise
+        showName = findViewById(R.id.showName);
+        showExercise = findViewById(R.id.showExercise);
 
         timer = new Timer(300000,10,this);
         getWorkouts();
@@ -194,8 +199,10 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private void nextWorkout(){
         timer.cancel();
         sets = 0;
-        decrement.setVisibility(View.VISIBLE);
-        increment.setVisibility(View.VISIBLE);
+        if(exercises.isEmpty()){
+            decrement.setVisibility(View.VISIBLE);
+            increment.setVisibility(View.VISIBLE);
+        }
         counter.setText("Start");
         countProgress.setProgress(0);
         setsText.setText(String.valueOf(maxSets));
@@ -274,8 +281,22 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
 
     @Override
     public void onWorkoutClick(int position) {
-        System.out.println(workouts.get(position).getName());
         chosenWorkout = workouts.get(position);
         background.callOnClick();
+        if(chosenWorkout != null){
+            showName.setText(chosenWorkout.getName());
+            showName.setVisibility(View.VISIBLE);
+            exercises = chosenWorkout.getExercises();
+            if(exercises.size() > 0){
+                Exercise exercise = exercises.get(0);
+                showExercise.setText(exercise.getName());
+                setsText.setText(String.valueOf(exercise.getSets()));
+                maxSets = exercise.getSets();
+                increment.setVisibility(View.GONE);
+                decrement.setVisibility(View.GONE);
+            }
+            showExercise.setVisibility(View.INVISIBLE);
+
+        }
     }
 }
