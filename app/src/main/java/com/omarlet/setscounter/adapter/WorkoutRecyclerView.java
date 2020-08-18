@@ -30,7 +30,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
     @Override
     public WorkoutRecyclerView.WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.workout_layout,parent,false);
-        return new WorkoutViewHolder(view,onWorkoutClick);
+        return new WorkoutViewHolder(view, onWorkoutClick);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
         return workouts.size();
     }
 
-    class WorkoutViewHolder extends RecyclerView.ViewHolder {
+    static class WorkoutViewHolder extends RecyclerView.ViewHolder {
 
         Button workoutName;
         OnWorkoutClick onWorkoutClick;

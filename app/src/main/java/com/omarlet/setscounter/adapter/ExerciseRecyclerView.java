@@ -44,7 +44,7 @@ public class ExerciseRecyclerView extends RecyclerView.Adapter<ExerciseRecyclerV
         return exercises.size();
     }
 
-    class ExerciseViewHolder extends RecyclerView.ViewHolder {
+    static class ExerciseViewHolder extends RecyclerView.ViewHolder {
         TextView exerciseName, exerciseSets, exerciseweight;
         public ExerciseViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private Timer timer;
     private int sets = 0;
     private int maxSets = 0;
+    private int exerciseLeft = 0;
+    private int currentExercise = 0;
     private Button decrement, increment, stopTimer, chooseWorkout;
     private Animation btnAnim,slideUp, slideDown;
     private List<Workout> workouts = new ArrayList<>();
@@ -173,10 +175,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
 
             }
 
-            private void updateList() {
-                workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts, MainActivity.this));
-            }
-
             private void setupWorkout(ViewGroup viewGroup) {
                 workoutList = viewGroup.findViewById(R.id.workoutList);
                 LinearLayoutManager lm = new LinearLayoutManager(MainActivity.this);
@@ -184,6 +182,10 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
             }
 
         });
+    }
+
+    private void updateList() {
+        workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts, this));
     }
 
     private void nextWorkoutBtn(){
@@ -202,6 +204,16 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         if(exercises.isEmpty()){
             decrement.setVisibility(View.VISIBLE);
             increment.setVisibility(View.VISIBLE);
+        }
+        if(chosenWorkout != null){
+            if(exerciseLeft > 0){
+                exerciseLeft--;
+                Exercise current = exercises.get(currentExercise++);
+                maxSets = current.getSets();
+                showExercise.setText(current.getName());
+            } else if(!exercises.isEmpty()) {
+                setupExercises();
+            }
         }
         counter.setText("Start");
         countProgress.setProgress(0);
@@ -222,6 +234,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                 counter.setText("Rest");
                 sets++;
                 setsText.setText(String.valueOf(sets));
+                if(chosenWorkout != null){
+                    stopTimer.setText("Skip workout");
+                }
                 resetTimer();
             }
         });
@@ -235,8 +250,11 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                 timer.cancel();
                 counter.setText("Rest");
                 sets++;
-                if(sets == maxSets+1) {
+                if(sets == maxSets+1 && (exerciseLeft == 0 || exercises.isEmpty())) {
                     counter.setText("Finished");
+                    nextWorkoutBtn();
+                } else if(sets == maxSets+1 && !exercises.isEmpty()){
+                    counter.setText("Next");
                     nextWorkoutBtn();
                 } else {
                     setsText.setText(String.valueOf(sets));
@@ -258,10 +276,15 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         });
     }
 
+    private int added = 0;
+
     @Override
     protected void onResume() {
         super.onResume();
         getWorkouts();
+        if(workoutList != null){
+            updateList();
+        }
     }
 
     // retrieves each workout created
@@ -269,7 +292,8 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
         int amount = pref.getInt("amount",0);
         Gson gson = new Gson();
-        for (int i = 0; i < amount; i++) {
+
+        for (int i = added; i < amount; i++) {
             String json = pref.getString("workout"+i,"");
             assert json != null;
             if(!json.isEmpty()){
@@ -277,26 +301,40 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                 workouts.add(workout);
             }
         }
+        added = amount;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onWorkoutClick(int position) {
         chosenWorkout = workouts.get(position);
         background.callOnClick();
+
         if(chosenWorkout != null){
             showName.setText(chosenWorkout.getName());
             showName.setVisibility(View.VISIBLE);
+            timer.cancel();
+            sets = 0;
+            startTimer();
+            countProgress.setProgress(0);
+            counter.setText("Start");
             exercises = chosenWorkout.getExercises();
             if(exercises.size() > 0){
-                Exercise exercise = exercises.get(0);
-                showExercise.setText(exercise.getName());
-                setsText.setText(String.valueOf(exercise.getSets()));
-                maxSets = exercise.getSets();
-                increment.setVisibility(View.GONE);
-                decrement.setVisibility(View.GONE);
+                setupExercises();
             }
-            showExercise.setVisibility(View.INVISIBLE);
-
         }
     }
+
+    private void setupExercises(){
+        currentExercise = 0;
+        Exercise exercise = exercises.get(currentExercise++);
+        showExercise.setText(exercise.getName());
+        setsText.setText(String.valueOf(exercise.getSets()));
+        maxSets = exercise.getSets();
+        increment.setVisibility(View.GONE);
+        decrement.setVisibility(View.GONE);
+        showExercise.setVisibility(View.VISIBLE);
+        exerciseLeft = exercises.size()-1;
+    }
+
 }
