@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private int exerciseLeft = 0;
     private int currentExercise = 0;
     private Button decrement, increment, stopTimer, chooseWorkout;
-    private Animation btnAnim,slideUp, slideDown;
+    private Animation btnAnim;
     private List<Workout> workouts = new ArrayList<>();
     private List<Exercise> exercises = new ArrayList<>();
     private RecyclerView workoutList;
@@ -60,8 +60,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         // button animation
         btnAnim = AnimationUtils.loadAnimation(this,R.anim.button_animation);
         btnAnim.setInterpolator(new BounceEffect());
-        slideUp = AnimationUtils.loadAnimation(this,R.anim.slide_up);
-        slideDown = AnimationUtils.loadAnimation(this,R.anim.slide_down);
         // "the ring"
         countBackground = findViewById(R.id.counterBackground);
         counter = findViewById(R.id.counter);
@@ -124,9 +122,10 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                     LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(LAYOUT_INFLATER_SERVICE);
                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.choose_workout,null);
 
+                    // updates recycler view in the slider
                     setupWorkout(viewGroup);
                     updateList();
-
+                    // background in order to make it "dark" and clickable
                     background = viewGroup.findViewById(R.id.background);
                     final TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
                     final RelativeLayout listViewWorkout = viewGroup.findViewById(R.id.listLayout);
@@ -138,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                     listViewWorkout.setLayoutParams(btnParams);
 
                     // setup so that when touching the background it closes the window
+                    // limiting the size of it so it doesn't activate the listener when clicking on the list
                     RelativeLayout.LayoutParams backgroundParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) (layoutSize*0.22));
                     backgroundParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
                     background.setLayoutParams(backgroundParams);
@@ -159,6 +159,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                         }
                     });
 
+                    // switches to an activity for creating a workout
                     addWorkout.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -188,6 +189,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts, this));
     }
 
+    // this is the start after starting/finishing a workout/exercise
     private void nextWorkoutBtn(){
         countBackground.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         stopTimer.setVisibility(View.INVISIBLE);
     }
 
-
+    // starting the timer (rest phase)
     private void startTimer(){
         countBackground.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -242,6 +244,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         });
     }
 
+    // stops the timer, countdown the amount of sets
     private void stopTimer(){
         countBackground.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("SetTextI18n")
@@ -276,7 +279,49 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         });
     }
 
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void onWorkoutClick(int position) {
+        chosenWorkout = workouts.get(position);
+        background.callOnClick();
+
+        if(chosenWorkout != null){
+            // setup for the workout
+            showName.setText(chosenWorkout.getName());
+            showName.setVisibility(View.VISIBLE);
+            timer.cancel();
+            sets = 0;
+            startTimer();
+            countProgress.setProgress(0);
+            counter.setText("Start");
+            exercises = chosenWorkout.getExercises();
+            if(exercises.size() > 0){
+                setupExercises();
+            }
+        }
+    }
+
+    // acts like a resetter when finishing a workout
+    private void setupExercises(){
+        currentExercise = 0;
+        Exercise exercise = exercises.get(currentExercise++);
+        showExercise.setText(exercise.getName());
+        setsText.setText(String.valueOf(exercise.getSets()));
+        maxSets = exercise.getSets();
+        increment.setVisibility(View.GONE);
+        decrement.setVisibility(View.GONE);
+        showExercise.setVisibility(View.VISIBLE);
+        exerciseLeft = exercises.size()-1;
+    }
+
+    // so we don't have to go through all workouts every time we resume or add a new workout
     private int added = 0;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        getWorkouts();
+    }
 
     @Override
     protected void onResume() {
@@ -302,39 +347,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
             }
         }
         added = amount;
-    }
-
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onWorkoutClick(int position) {
-        chosenWorkout = workouts.get(position);
-        background.callOnClick();
-
-        if(chosenWorkout != null){
-            showName.setText(chosenWorkout.getName());
-            showName.setVisibility(View.VISIBLE);
-            timer.cancel();
-            sets = 0;
-            startTimer();
-            countProgress.setProgress(0);
-            counter.setText("Start");
-            exercises = chosenWorkout.getExercises();
-            if(exercises.size() > 0){
-                setupExercises();
-            }
-        }
-    }
-
-    private void setupExercises(){
-        currentExercise = 0;
-        Exercise exercise = exercises.get(currentExercise++);
-        showExercise.setText(exercise.getName());
-        setsText.setText(String.valueOf(exercise.getSets()));
-        maxSets = exercise.getSets();
-        increment.setVisibility(View.GONE);
-        decrement.setVisibility(View.GONE);
-        showExercise.setVisibility(View.VISIBLE);
-        exerciseLeft = exercises.size()-1;
     }
 
 }
