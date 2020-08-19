@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                 setupExercises();
             }
         }
+
         reset();
     }
 
@@ -377,6 +378,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         // if there is only one exercise there is no need to show the buttons
         if(exercises.size() > 1){
             rightExercise.setVisibility(View.VISIBLE);
+            leftExercise.setVisibility(View.INVISIBLE);
+        } else {
+            rightExercise.setVisibility(View.INVISIBLE);
             leftExercise.setVisibility(View.INVISIBLE);
         }
         exerciseLeft = exercises.size()-1;
