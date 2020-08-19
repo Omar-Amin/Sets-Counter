@@ -97,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
                 }
             }
         });
+
         increment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,6 +112,34 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
             @Override
             public void onClick(View view) {
                 nextWorkout();
+            }
+        });
+
+        rightExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextWorkout();
+            }
+        });
+
+        leftExercise.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                previousWorkout();
+            }
+
+            private void previousWorkout() {
+                if(chosenWorkout != null){
+                    if(currentExercise >= 1){
+                        exerciseLeft++;
+                        currentExercise--;
+                        Exercise current = exercises.get(currentExercise);
+                        maxSets = current.getSets();
+                        showExercise.setText(current.getName());
+                    }
+                }
+
+                reset();
             }
         });
     }
@@ -205,29 +234,48 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         });
     }
 
-    @SuppressLint("SetTextI18n")
     private void nextWorkout(){
-        timer.cancel();
-        sets = 0;
-        if(exercises.isEmpty()){
-            decrement.setVisibility(View.VISIBLE);
-            increment.setVisibility(View.VISIBLE);
-        }
         if(chosenWorkout != null){
             if(exerciseLeft > 0){
                 exerciseLeft--;
-                Exercise current = exercises.get(currentExercise++);
+                currentExercise++;
+                Exercise current = exercises.get(currentExercise);
                 maxSets = current.getSets();
                 showExercise.setText(current.getName());
             } else if(!exercises.isEmpty()) {
                 setupExercises();
             }
         }
+        reset();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void reset(){
+        if(exercises.isEmpty()){
+            decrement.setVisibility(View.VISIBLE);
+            increment.setVisibility(View.VISIBLE);
+        }
+
+        timer.cancel();
+        sets = 0;
         counter.setText("Start");
         countProgress.setProgress(0);
         setsText.setText(String.valueOf(maxSets));
-        startTimer();
         stopTimer.setVisibility(View.INVISIBLE);
+
+        if(currentExercise >= 1){
+            leftExercise.setVisibility(View.VISIBLE);
+        } else {
+            leftExercise.setVisibility(View.INVISIBLE);
+        }
+
+        if(exerciseLeft == 0){
+            rightExercise.setVisibility(View.INVISIBLE);
+        } else {
+            rightExercise.setVisibility(View.VISIBLE);
+        }
+
+        startTimer();
     }
 
     // starting the timer (rest phase)
@@ -319,15 +367,18 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     // acts like a resetter when finishing a workout
     private void setupExercises(){
         currentExercise = 0;
-        Exercise exercise = exercises.get(currentExercise++);
+        Exercise exercise = exercises.get(currentExercise);
         showExercise.setText(exercise.getName());
         setsText.setText(String.valueOf(exercise.getSets()));
         maxSets = exercise.getSets();
         increment.setVisibility(View.INVISIBLE);
         decrement.setVisibility(View.INVISIBLE);
         showExercise.setVisibility(View.VISIBLE);
-        rightExercise.setVisibility(View.VISIBLE);
-        leftExercise.setVisibility(View.VISIBLE);
+        // if there is only one exercise there is no need to show the buttons
+        if(exercises.size() > 1){
+            rightExercise.setVisibility(View.VISIBLE);
+            leftExercise.setVisibility(View.INVISIBLE);
+        }
         exerciseLeft = exercises.size()-1;
     }
 
