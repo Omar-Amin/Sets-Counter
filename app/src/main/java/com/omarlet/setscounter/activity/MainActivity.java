@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.PopupWindow;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -37,16 +38,18 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private TextView counter, setsText, showName, showExercise;
     private ProgressBar countProgress;
     private Timer timer;
-    private int sets = 0;
-    private int maxSets = 0;
-    private int exerciseLeft = 0;
-    private int currentExercise = 0;
     private Button decrement, increment, stopTimer, chooseWorkout;
     private Animation btnAnim;
     private List<Workout> workouts = new ArrayList<>();
     private List<Exercise> exercises = new ArrayList<>();
     private RecyclerView workoutList;
     private Workout chosenWorkout;
+    private ImageButton leftExercise, rightExercise;
+
+    private int sets = 0;
+    private int maxSets = 0;
+    private int exerciseLeft = 0;
+    private int currentExercise = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +75,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         // workout and exercise
         showName = findViewById(R.id.showName);
         showExercise = findViewById(R.id.showExercise);
+        // choose exercise to the left/right
+        rightExercise = findViewById(R.id.rightExercise);
+        leftExercise = findViewById(R.id.leftExercise);
 
         timer = new Timer(300000,10,this);
         getWorkouts();
@@ -297,8 +303,17 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
             exercises = chosenWorkout.getExercises();
             if(exercises.size() > 0){
                 setupExercises();
+            }else {
+                hideExercise();
             }
         }
+    }
+
+    // hides the exercises if the workout doesn't have any
+    private void hideExercise() {
+        showExercise.setVisibility(View.INVISIBLE);
+        rightExercise.setVisibility(View.INVISIBLE);
+        leftExercise.setVisibility(View.INVISIBLE);
     }
 
     // acts like a resetter when finishing a workout
@@ -308,9 +323,11 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         showExercise.setText(exercise.getName());
         setsText.setText(String.valueOf(exercise.getSets()));
         maxSets = exercise.getSets();
-        increment.setVisibility(View.GONE);
-        decrement.setVisibility(View.GONE);
+        increment.setVisibility(View.INVISIBLE);
+        decrement.setVisibility(View.INVISIBLE);
         showExercise.setVisibility(View.VISIBLE);
+        rightExercise.setVisibility(View.VISIBLE);
+        leftExercise.setVisibility(View.VISIBLE);
         exerciseLeft = exercises.size()-1;
     }
 

@@ -94,6 +94,38 @@
         android:layout_below="@id/sets"
         android:layout_marginTop="45dp"/>
 
+    <ImageButton
+        android:id="@+id/leftExercise"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitXY"
+        android:src="@drawable/left_exercise"
+        android:layout_toLeftOf="@id/showExercise"
+        android:layout_toStartOf="@id/showExercise"
+        android:layout_marginTop="51dp"
+        android:layout_marginRight="15dp"
+        android:layout_below="@id/sets"
+        android:contentDescription="@string/chooses_the_exercise_to_the_left_of_the_current_one"
+        android:layout_marginEnd="15dp"
+        android:visibility="invisible"/>
+
+    <ImageButton
+        android:id="@+id/rightExercise"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:background="#00FFFFFF"
+        android:scaleType="fitXY"
+        android:src="@drawable/right_exercise"
+        android:layout_toRightOf="@id/showExercise"
+        android:layout_marginTop="51dp"
+        android:layout_marginLeft="15dp"
+        android:layout_below="@id/sets"
+        android:contentDescription="@string/chooses_the_exercise_to_the_right_of_the_current_one"
+        android:layout_toEndOf="@id/showExercise"
+        android:layout_marginStart="15dp"
+        android:visibility="invisible"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
