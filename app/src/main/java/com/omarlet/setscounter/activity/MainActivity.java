@@ -348,7 +348,43 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     }
 
     private void deleteWorkout(int position) {
-        System.out.println(position);
+        Workout workout = workouts.remove(position);
+        if(workout == chosenWorkout){
+            defaultLayout();
+        }
+        chosenWorkout = null;
+        updateWorkout();
+    }
+
+    private void defaultLayout(){
+        hideExercise();
+        exercises.clear();
+        showName.setVisibility(View.INVISIBLE);
+        currentExercise = 0;
+        exerciseLeft = 0;
+        maxSets = 4;
+        reset();
+    }
+
+    // updates the new workout list after removing
+    private void updateWorkout() {
+        SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
+        @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        int i = 0;
+        for (Workout workout :workouts) {
+            String json = gson.toJson(workout);
+            editor.putString("workout"+i++, json);
+            editor.putInt("amount",workouts.size());
+        }
+        // if the last workout is deleted the size would be 0
+        if(workouts.size() == 0){
+            editor.remove("workout");
+            editor.putInt("amount",0);
+        }
+        editor.apply();
+        added = workouts.size();
+        updateList();
     }
 
     @SuppressLint("SetTextI18n")
