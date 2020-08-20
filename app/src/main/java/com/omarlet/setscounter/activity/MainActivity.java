@@ -51,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private int exerciseLeft = 0;
     private int currentExercise = 0;
 
+    private int DELETE_WORKOUT = 1;
+    private int CHOOSE_WORKOUT = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -334,9 +337,22 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         });
     }
 
-    @SuppressLint("SetTextI18n")
     @Override
-    public void onWorkoutClick(int position) {
+    public void onWorkoutClick(int position, int operation) {
+        if(operation == DELETE_WORKOUT){
+            deleteWorkout(position);
+        }
+        if(operation == CHOOSE_WORKOUT){
+            setupWorkout(position);
+        }
+    }
+
+    private void deleteWorkout(int position) {
+        System.out.println(position);
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void setupWorkout(int position) {
         chosenWorkout = workouts.get(position);
         background.callOnClick();
 

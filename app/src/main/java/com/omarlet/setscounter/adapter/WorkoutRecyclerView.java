@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,16 +48,28 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
     static class WorkoutViewHolder extends RecyclerView.ViewHolder {
 
         Button workoutName;
+        ImageButton deleteWorkout;
         OnWorkoutClick onWorkoutClick;
+        private int DELETE_WORKOUT = 1;
+        private int CHOOSE_WORKOUT = 0;
 
         public WorkoutViewHolder(@NonNull final View itemView, final OnWorkoutClick onWorkoutClick){
             super(itemView);
             workoutName = itemView.findViewById(R.id.workoutListName);
+            deleteWorkout = itemView.findViewById(R.id.deleteWorkout);
+
             this.onWorkoutClick = onWorkoutClick;
             workoutName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onWorkoutClick.onWorkoutClick(getAdapterPosition());
+                    onWorkoutClick.onWorkoutClick(getAdapterPosition(),CHOOSE_WORKOUT);
+                }
+            });
+
+            deleteWorkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onWorkoutClick.onWorkoutClick(getAdapterPosition(), DELETE_WORKOUT);
                 }
             });
         }
@@ -65,7 +78,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
     }
 
     public interface OnWorkoutClick{
-        void onWorkoutClick(int position);
+        void onWorkoutClick(int position, int operation);
     }
 
 }

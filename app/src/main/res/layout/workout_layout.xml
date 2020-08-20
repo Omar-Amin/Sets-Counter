@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:padding="8dp"
     android:layout_height="wrap_content"
@@ -15,6 +16,21 @@
         android:textAllCaps="false"
         android:background="@drawable/add_workout"
         android:layout_centerHorizontal="true"
-        android:id="@+id/workoutListName" />
+        android:id="@+id/workoutListName"
+        tools:ignore="RelativeOverlap" />
+
+    <ImageButton
+        android:id="@+id/deleteWorkout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="fitXY"
+        android:background="#00FFFFFF"
+        android:src="@drawable/delete"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="25dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="25dp"
+        android:contentDescription="@string/deletes_workout" />
 
 </RelativeLayout>
