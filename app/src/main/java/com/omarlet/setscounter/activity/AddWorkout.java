@@ -36,10 +36,12 @@ import java.util.List;
 public class AddWorkout extends AppCompatActivity {
 
     private Button saveWorkout, addExercise;
-    private Workout workout = new Workout("Choose name");
+    private Workout workout;
     private RecyclerView exerciseList;
     private EditText workoutName;
+    private boolean edit = false;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +53,15 @@ public class AddWorkout extends AppCompatActivity {
         exerciseList = findViewById(R.id.exerciseList);
         LinearLayoutManager lm = new LinearLayoutManager(this);
         exerciseList.setLayoutManager(lm);
+
+        workout = (Workout) getIntent().getSerializableExtra("EditWorkout");
+        if (workout == null){
+            workout = new Workout("Choose name");
+        }else {
+            workoutName.setText(workout.getName());
+            edit = true;
+            saveWorkout.setText("Update");
+        }
 
         setupExerciseList();
 
@@ -78,19 +89,41 @@ public class AddWorkout extends AppCompatActivity {
             public void onClick(View view) {
                 if(!workoutName.getText().toString().isEmpty()){
                     workout.setName(workoutName.getText().toString());
-                    SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
-                    int amount = pref.getInt("amount",0);
-                    @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = pref.edit();
-                    Gson gson = new Gson();
-                    String json = gson.toJson(workout);
-                    editor.putString("workout"+amount, json);
-                    editor.putInt("amount",amount+1);
-                    editor.apply();
-                    finish();
+
+                    if(!edit){
+                        saveWorkout();
+                    } else {
+                        updateWorkout();
+                    }
                 }
             }
+
+            private void updateWorkout() {
+                SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
+                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = pref.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(workout);
+                editor.putString("workout"+workout.getId(), json);
+                editor.apply();
+                finish();
+            }
+
+            private void saveWorkout(){
+                SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
+                int amount = pref.getInt("amount",0);
+                @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = pref.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(workout);
+                editor.putString("workout"+amount, json);
+                editor.putInt("amount",amount+1);
+                editor.apply();
+                finish();
+            }
+
         });
     }
+
+
 
     private void setupExerciseList() {
         exerciseList.setAdapter(new ExerciseRecyclerView(this,workout.getExercises()));

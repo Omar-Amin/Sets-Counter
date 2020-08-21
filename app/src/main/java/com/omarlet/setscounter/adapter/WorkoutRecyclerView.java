@@ -48,8 +48,9 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
     static class WorkoutViewHolder extends RecyclerView.ViewHolder {
 
         Button workoutName;
-        ImageButton deleteWorkout;
+        ImageButton deleteWorkout, editWorkout;
         OnWorkoutClick onWorkoutClick;
+        private int EDIT_WORKOUT = 2;
         private int DELETE_WORKOUT = 1;
         private int CHOOSE_WORKOUT = 0;
 
@@ -57,6 +58,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
             super(itemView);
             workoutName = itemView.findViewById(R.id.workoutListName);
             deleteWorkout = itemView.findViewById(R.id.deleteWorkout);
+            editWorkout = itemView.findViewById(R.id.editWorkout);
 
             this.onWorkoutClick = onWorkoutClick;
             workoutName.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +72,13 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
                 @Override
                 public void onClick(View view) {
                     onWorkoutClick.onWorkoutClick(getAdapterPosition(), DELETE_WORKOUT);
+                }
+            });
+
+            editWorkout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onWorkoutClick.onWorkoutClick(getAdapterPosition(),EDIT_WORKOUT);
                 }
             });
         }

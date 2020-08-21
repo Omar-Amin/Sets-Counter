@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     private int exerciseLeft = 0;
     private int currentExercise = 0;
 
+    private int EDIT_WORKOUT = 2;
     private int DELETE_WORKOUT = 1;
     private int CHOOSE_WORKOUT = 0;
 
@@ -339,6 +340,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
 
     @Override
     public void onWorkoutClick(int position, int operation) {
+        if(operation == EDIT_WORKOUT){
+            editWorkout(position);
+        }
         if(operation == DELETE_WORKOUT){
             deleteWorkout(position);
         }
@@ -347,13 +351,22 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         }
     }
 
+    private void editWorkout(int position) {
+        edited = position;
+        Workout workout = workouts.get(position);
+        workout.setId(position);
+        Intent intent = new Intent(MainActivity.this,AddWorkout.class);
+        intent.putExtra("EditWorkout", workout);
+        this.startActivity(intent);
+    }
+
     private void deleteWorkout(int position) {
         Workout workout = workouts.remove(position);
         if(workout == chosenWorkout){
             defaultLayout();
         }
         chosenWorkout = null;
-        updateWorkout();
+        removeWorkout();
     }
 
     private void defaultLayout(){
@@ -367,7 +380,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
     }
 
     // updates the new workout list after removing
-    private void updateWorkout() {
+    private void removeWorkout() {
         SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
         @SuppressLint("CommitPrefEdits") SharedPreferences.Editor editor = pref.edit();
         Gson gson = new Gson();
@@ -440,6 +453,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
 
     // so we don't have to go through all workouts every time we resume or add a new workout
     private int added = 0;
+    private int edited = -1;
 
     @Override
     protected void onStart() {
@@ -452,7 +466,22 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         super.onResume();
         getWorkouts();
         if(workoutList != null){
+            if(edited >= 0){
+                getUpdatedWorkout(edited);
+                edited = -1;
+            }
             updateList();
+        }
+    }
+
+    private void getUpdatedWorkout(int pos) {
+        SharedPreferences pref = getSharedPreferences("workouts",MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = pref.getString("workout"+pos,"");
+        assert json != null;
+        if(!json.isEmpty()){
+            Workout workout = gson.fromJson(json, Workout.class);
+            workouts.set(pos,workout);
         }
     }
 

@@ -1,11 +1,13 @@
 package com.omarlet.setscounter.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Workout {
+public class Workout implements Serializable {
     private String name;
     private List<Exercise> exercises = new ArrayList<>();
+    private int id;
 
     public Workout(String name){
         this.name = name;
@@ -29,5 +31,13 @@ public class Workout {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void setId(int id){
+        this.id = id;
+    }
+
+    public int getId(){
+        return id;
     }
 }
