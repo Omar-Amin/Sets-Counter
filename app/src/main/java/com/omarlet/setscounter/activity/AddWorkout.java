@@ -126,8 +126,6 @@ public class AddWorkout extends AppCompatActivity implements ExerciseRecyclerVie
         });
     }
 
-
-
     private void setupExerciseList() {
         exerciseList.setAdapter(new ExerciseRecyclerView(this, workout.getExercises(),this));
     }

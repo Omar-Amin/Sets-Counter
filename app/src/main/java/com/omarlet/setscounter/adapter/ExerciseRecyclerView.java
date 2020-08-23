@@ -68,7 +68,6 @@ public class ExerciseRecyclerView extends RecyclerView.Adapter<ExerciseRecyclerV
             exerciseWeight.setOnLongClickListener(this);
         }
 
-
         @Override
         public boolean onLongClick(View view) {
             PopupMenu popup = new PopupMenu(context, view);

@@ -1,6 +1,7 @@
 package com.omarlet.setscounter.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.model.Workout;
+import com.omarlet.setscounter.ui.DeleteWorkoutDialog;
 
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
     @Override
     public WorkoutRecyclerView.WorkoutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.workout_layout,parent,false);
-        return new WorkoutViewHolder(view, onWorkoutClick);
+        return new WorkoutViewHolder(view, onWorkoutClick,context);
     }
 
     @Override
@@ -50,16 +52,17 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
         Button workoutName;
         ImageButton deleteWorkout, editWorkout;
         OnWorkoutClick onWorkoutClick;
+        private Context context;
         private int EDIT_WORKOUT = 2;
         private int DELETE_WORKOUT = 1;
         private int CHOOSE_WORKOUT = 0;
 
-        public WorkoutViewHolder(@NonNull final View itemView, final OnWorkoutClick onWorkoutClick){
+        public WorkoutViewHolder(@NonNull final View itemView, final OnWorkoutClick onWorkoutClick, final Context context){
             super(itemView);
             workoutName = itemView.findViewById(R.id.workoutListName);
             deleteWorkout = itemView.findViewById(R.id.deleteWorkout);
             editWorkout = itemView.findViewById(R.id.editWorkout);
-
+            this.context = context;
             this.onWorkoutClick = onWorkoutClick;
             workoutName.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -71,7 +74,16 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
             deleteWorkout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onWorkoutClick.onWorkoutClick(getAdapterPosition(), DELETE_WORKOUT);
+                    final DeleteWorkoutDialog deleteWorkoutDialog = new DeleteWorkoutDialog( context);
+                    deleteWorkoutDialog.show();
+                    deleteWorkoutDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            if(deleteWorkoutDialog.getStatus() == 1){
+                                onWorkoutClick.onWorkoutClick(getAdapterPosition(), DELETE_WORKOUT);
+                            }
+                        }
+                    });
                 }
             });
 
@@ -82,7 +94,6 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
                 }
             });
         }
-
 
     }
 

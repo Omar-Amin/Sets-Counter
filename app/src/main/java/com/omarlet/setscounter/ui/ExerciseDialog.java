@@ -1,16 +1,13 @@
 package com.omarlet.setscounter.ui;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.model.Exercise;
@@ -22,7 +19,6 @@ public class ExerciseDialog extends Dialog {
     }
 
     private EditText insertName, insertSets, insertWeight;
-    private Button save;
     private Exercise exercise = null;
 
     @Override
@@ -33,7 +29,7 @@ public class ExerciseDialog extends Dialog {
         insertName = findViewById(R.id.insertName);
         insertSets = findViewById(R.id.insertSets);
         insertWeight = findViewById(R.id.insertWeight);
-        save = findViewById(R.id.saveExercise);
+        Button save = findViewById(R.id.saveExercise);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
