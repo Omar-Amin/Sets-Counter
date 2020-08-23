@@ -470,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         if(workoutList != null){
             if(edited >= 0){
                 getUpdatedWorkout(edited);
-                if(chosenWorkout.getId() == edited){
+                if(chosenWorkout != null && chosenWorkout.getId() == edited){
                     setupWorkout(edited);
                 }
                 edited = -1;
