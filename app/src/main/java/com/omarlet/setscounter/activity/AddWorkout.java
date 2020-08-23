@@ -1,5 +1,6 @@
 package com.omarlet.setscounter.activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,10 +15,12 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupMenu;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -33,7 +36,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddWorkout extends AppCompatActivity {
+public class AddWorkout extends AppCompatActivity implements ExerciseRecyclerView.OnExerciseClick {
 
     private Button saveWorkout, addExercise;
     private Workout workout;
@@ -126,6 +129,29 @@ public class AddWorkout extends AppCompatActivity {
 
 
     private void setupExerciseList() {
-        exerciseList.setAdapter(new ExerciseRecyclerView(this,workout.getExercises()));
+        exerciseList.setAdapter(new ExerciseRecyclerView(this, workout.getExercises(),this));
+        exerciseList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                PopupMenu popup = new PopupMenu(AddWorkout.this,rv);
+                popup.inflate(R.menu.exercise_on_hold);
+                popup.show();
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onExerciseClick(int position) {
+        System.out.println(position);
     }
 }

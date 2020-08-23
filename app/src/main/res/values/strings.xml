@@ -36,4 +36,5 @@
     <string name="chooses_the_exercise_to_the_left_of_the_current_one">Chooses the exercise to the left of the current one.</string>
     <string name="chooses_the_exercise_to_the_right_of_the_current_one">Chooses the exercise to the right of the current one</string>
     <string name="deletes_workout">Deletes workout</string>
+    <string name="delete">Delete</string>
 </resources>
