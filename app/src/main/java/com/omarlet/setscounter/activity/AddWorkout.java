@@ -130,28 +130,11 @@ public class AddWorkout extends AppCompatActivity implements ExerciseRecyclerVie
 
     private void setupExerciseList() {
         exerciseList.setAdapter(new ExerciseRecyclerView(this, workout.getExercises(),this));
-        exerciseList.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                PopupMenu popup = new PopupMenu(AddWorkout.this,rv);
-                popup.inflate(R.menu.exercise_on_hold);
-                popup.show();
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
     }
 
     @Override
     public void onExerciseClick(int position) {
-        System.out.println(position);
+        workout.removeExercise(position);
+        setupExerciseList();
     }
 }
