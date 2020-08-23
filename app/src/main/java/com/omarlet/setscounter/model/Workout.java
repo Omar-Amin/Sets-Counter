@@ -7,7 +7,7 @@ import java.util.List;
 public class Workout implements Serializable {
     private String name;
     private List<Exercise> exercises = new ArrayList<>();
-    private int id;
+    private int id = -1;
 
     public Workout(String name){
         this.name = name;

@@ -428,6 +428,8 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         showExercise.setVisibility(View.INVISIBLE);
         rightExercise.setVisibility(View.INVISIBLE);
         leftExercise.setVisibility(View.INVISIBLE);
+        increment.setVisibility(View.VISIBLE);
+        decrement.setVisibility(View.VISIBLE);
     }
 
     // acts like a resetter when finishing a workout
@@ -468,6 +470,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutRecyclerVi
         if(workoutList != null){
             if(edited >= 0){
                 getUpdatedWorkout(edited);
+                if(chosenWorkout.getId() == edited){
+                    setupWorkout(edited);
+                }
                 edited = -1;
             }
             updateList();
