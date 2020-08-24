@@ -1,12 +1,16 @@
 package com.omarlet.setscounter.activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -29,6 +33,7 @@ import com.omarlet.setscounter.model.Exercise;
 import com.omarlet.setscounter.model.OnWorkoutClick;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.BounceEffect;
+import com.omarlet.setscounter.ui.WorkoutNotification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
     private int exerciseLeft = 0;
     private int currentExercise = 0;
 
+    NotificationManager notificationManager;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,6 +89,17 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
         leftExercise = findViewById(R.id.leftExercise);
 
         timer = new Timer(300000,10,this);
+
+        // notification
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            NotificationChannel notificationChannel = new NotificationChannel(WorkoutNotification.WORKOUT_ID,"Sets Counter", NotificationManager.IMPORTANCE_HIGH);
+
+            notificationManager = getSystemService(NotificationManager.class);
+            if(notificationManager != null){
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
+
         getWorkouts();
         startTimer();
         setupButtons();
@@ -414,6 +433,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
             exercises = chosenWorkout.getExercises();
             if(exercises.size() > 0){
                 setupExercises();
+                WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(0));
             }else {
                 hideExercise();
             }
