@@ -9,13 +9,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".activity.AddWorkout"></activity>
-        <activity
-            android:name=".activity.MainActivity2"
-            android:label="@string/title_activity_main2"
-            android:theme="@style/NoActionBar" />
+        <activity android:name=".activity.AddWorkout">
+        </activity>
+
         <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

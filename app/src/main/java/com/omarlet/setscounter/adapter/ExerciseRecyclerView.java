@@ -6,6 +6,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -63,9 +64,8 @@ public class ExerciseRecyclerView extends RecyclerView.Adapter<ExerciseRecyclerV
             exerciseSets = itemView.findViewById(R.id.exerciseSets);
             exerciseWeight = itemView.findViewById(R.id.exerciseWeight);
 
-            exerciseName.setOnLongClickListener(this);
-            exerciseSets.setOnLongClickListener(this);
-            exerciseWeight.setOnLongClickListener(this);
+            RelativeLayout exerciseLayout = itemView.findViewById(R.id.exerciseLayout);
+            exerciseLayout.setOnLongClickListener(this);
         }
 
         @Override

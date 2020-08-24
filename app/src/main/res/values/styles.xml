@@ -1,11 +1,11 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#f66</item>
+        <item name="colorPrimaryDark">#f66</item>
+        <item name="colorAccent">#FFC8C8</item>
+        <item name="android:popupMenuStyle">@style/PopupMenuBackground</item>
+        <item name="android:itemTextAppearance">@style/PopupMenuText</item>
     </style>
 
     <style name="NoActionBar">
@@ -20,7 +20,16 @@
     <style name="Slide">
         <item name="android:windowEnterAnimation">@anim/slide_up</item>
         <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
 
+    <style name="PopupMenuText" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">#fff</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="PopupMenuBackground" parent="ThemeOverlay.AppCompat.Dark">
+        <item name="android:popupBackground">#f66</item>
     </style>
 
 </resources>
