@@ -26,13 +26,14 @@ import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.adapter.WorkoutRecyclerView;
 import com.omarlet.setscounter.calculation.Timer;
 import com.omarlet.setscounter.model.Exercise;
+import com.omarlet.setscounter.model.OnWorkoutClick;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.BounceEffect;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements WorkoutRecyclerView.OnWorkoutClick {
+public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
 
     private View countBackground;
     private TextView counter, setsText, showName, showExercise;

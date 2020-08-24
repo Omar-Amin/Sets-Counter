@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.setscounter.R;
+import com.omarlet.setscounter.model.OnWorkoutClick;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.DeleteWorkoutDialog;
 
@@ -95,8 +96,5 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
 
     }
 
-    public interface OnWorkoutClick{
-        void onWorkoutClick(int position, int operation);
-    }
 
 }

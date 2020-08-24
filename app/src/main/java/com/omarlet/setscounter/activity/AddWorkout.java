@@ -1,44 +1,26 @@
 package com.omarlet.setscounter.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupMenu;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.adapter.ExerciseRecyclerView;
 import com.omarlet.setscounter.model.Exercise;
+import com.omarlet.setscounter.model.OnExerciseClick;
 import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.ui.ExerciseDialog;
 
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.List;
+public class AddWorkout extends AppCompatActivity implements OnExerciseClick {
 
-public class AddWorkout extends AppCompatActivity implements ExerciseRecyclerView.OnExerciseClick {
-
-    private Button saveWorkout, addExercise;
     private Workout workout;
     private RecyclerView exerciseList;
     private EditText workoutName;
@@ -49,8 +31,8 @@ public class AddWorkout extends AppCompatActivity implements ExerciseRecyclerVie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_workout);
-        saveWorkout = findViewById(R.id.saveWorkout);
-        addExercise = findViewById(R.id.addExercise);
+        Button saveWorkout = findViewById(R.id.saveWorkout);
+        Button addExercise = findViewById(R.id.addExercise);
         workoutName = findViewById(R.id.workoutName);
 
         exerciseList = findViewById(R.id.exerciseList);

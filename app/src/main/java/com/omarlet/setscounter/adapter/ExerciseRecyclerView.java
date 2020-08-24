@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.model.Exercise;
+import com.omarlet.setscounter.model.OnExerciseClick;
 
 import java.util.List;
 
@@ -89,7 +90,4 @@ public class ExerciseRecyclerView extends RecyclerView.Adapter<ExerciseRecyclerV
 
     }
 
-    public interface OnExerciseClick{
-        void onExerciseClick(int position);
-    }
 }
