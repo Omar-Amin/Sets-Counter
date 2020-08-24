@@ -9,6 +9,10 @@ public class Workout implements Serializable {
     private List<Exercise> exercises = new ArrayList<>();
     private int id = -1;
 
+    public static final int EDIT_WORKOUT = 2;
+    public static final int DELETE_WORKOUT = 1;
+    public static final int CHOOSE_WORKOUT = 0;
+
     public Workout(String name){
         this.name = name;
     }

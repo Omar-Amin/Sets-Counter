@@ -53,9 +53,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
         Button workoutName;
         ImageButton deleteWorkout, editWorkout;
         OnWorkoutClick onWorkoutClick;
-        private int EDIT_WORKOUT = 2;
-        private int DELETE_WORKOUT = 1;
-        private int CHOOSE_WORKOUT = 0;
+
 
         public WorkoutViewHolder(@NonNull final View itemView, final OnWorkoutClick onWorkoutClick, final Context context){
             super(itemView);
@@ -66,7 +64,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
             workoutName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onWorkoutClick.onWorkoutClick(getAdapterPosition(),CHOOSE_WORKOUT);
+                    onWorkoutClick.onWorkoutClick(getAdapterPosition(),Workout.CHOOSE_WORKOUT);
                 }
             });
 
@@ -79,7 +77,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
                         @Override
                         public void onDismiss(DialogInterface dialogInterface) {
                             if(deleteWorkoutDialog.getStatus() == 1){
-                                onWorkoutClick.onWorkoutClick(getAdapterPosition(), DELETE_WORKOUT);
+                                onWorkoutClick.onWorkoutClick(getAdapterPosition(), Workout.DELETE_WORKOUT);
                             }
                         }
                     });
@@ -89,7 +87,7 @@ public class WorkoutRecyclerView extends RecyclerView.Adapter<WorkoutRecyclerVie
             editWorkout.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onWorkoutClick.onWorkoutClick(getAdapterPosition(),EDIT_WORKOUT);
+                    onWorkoutClick.onWorkoutClick(getAdapterPosition(),Workout.EDIT_WORKOUT);
                 }
             });
         }

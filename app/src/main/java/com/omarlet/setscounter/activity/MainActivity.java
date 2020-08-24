@@ -52,10 +52,6 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
     private int exerciseLeft = 0;
     private int currentExercise = 0;
 
-    private int EDIT_WORKOUT = 2;
-    private int DELETE_WORKOUT = 1;
-    private int CHOOSE_WORKOUT = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -341,13 +337,13 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
 
     @Override
     public void onWorkoutClick(int position, int operation) {
-        if(operation == EDIT_WORKOUT){
+        if(operation == Workout.EDIT_WORKOUT){
             editWorkout(position);
         }
-        if(operation == DELETE_WORKOUT){
+        if(operation == Workout.DELETE_WORKOUT){
             deleteWorkout(position);
         }
-        if(operation == CHOOSE_WORKOUT){
+        if(operation == Workout.CHOOSE_WORKOUT){
             setupWorkout(position);
         }
     }
@@ -444,13 +440,12 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
         decrement.setVisibility(View.INVISIBLE);
         showExercise.setVisibility(View.VISIBLE);
         // if there is only one exercise there is no need to show the buttons
-        if(exercises.size() > 1){
+        if (exercises.size() > 1){
             rightExercise.setVisibility(View.VISIBLE);
-            leftExercise.setVisibility(View.INVISIBLE);
         } else {
             rightExercise.setVisibility(View.INVISIBLE);
-            leftExercise.setVisibility(View.INVISIBLE);
         }
+        leftExercise.setVisibility(View.INVISIBLE);
         exerciseLeft = exercises.size()-1;
     }
 
