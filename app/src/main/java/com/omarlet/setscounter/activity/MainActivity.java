@@ -8,7 +8,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
@@ -31,14 +34,17 @@ import com.omarlet.setscounter.adapter.WorkoutRecyclerView;
 import com.omarlet.setscounter.calculation.Timer;
 import com.omarlet.setscounter.model.Exercise;
 import com.omarlet.setscounter.model.OnWorkoutClick;
+import com.omarlet.setscounter.model.TimerNotifcation;
 import com.omarlet.setscounter.model.Workout;
+import com.omarlet.setscounter.services.OnClearService;
 import com.omarlet.setscounter.ui.BounceEffect;
 import com.omarlet.setscounter.ui.WorkoutNotification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
+public class MainActivity extends AppCompatActivity implements OnWorkoutClick, TimerNotifcation {
 
     private View countBackground;
     private TextView counter, setsText, showName, showExercise;
@@ -98,6 +104,9 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
             if(notificationManager != null){
                 notificationManager.createNotificationChannel(notificationChannel);
             }
+
+            registerReceiver(broadcastReceiver, new IntentFilter("TRACK_WORKOUT"));
+            startService(new Intent(getBaseContext(), OnClearService.class));
         }
 
         getWorkouts();
@@ -433,7 +442,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
             exercises = chosenWorkout.getExercises();
             if(exercises.size() > 0){
                 setupExercises();
-                WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(0));
+                WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(0),0,exercises.size());
             }else {
                 hideExercise();
             }
@@ -523,4 +532,67 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick {
         added = amount;
     }
 
+    BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                String action = Objects.requireNonNull(intent.getExtras()).getString("action");
+                System.out.println(action);
+                assert action != null;
+                switch (action){
+                    case WorkoutNotification.PREVIOUS_WORKOUT:
+                        onPrevWorkout();
+                        break;
+                    case WorkoutNotification.START_TIMER:
+                        onStartWorkout();
+                        break;
+                    case WorkoutNotification.REST:
+                        onRestWorkout();
+                        break;
+                    case WorkoutNotification.NEXT_WORKOUT:
+                        onNextExercise();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    };
+
+    @Override
+    public void onPrevWorkout() {
+        if(!exercises.isEmpty() && leftExercise.getVisibility() == View.VISIBLE){
+            leftExercise.callOnClick();
+            WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+        }
+    }
+
+    @Override
+    public void onNextExercise() {
+        if(!exercises.isEmpty() && rightExercise.getVisibility() == View.VISIBLE){
+            System.out.println("hello");
+            rightExercise.callOnClick();
+            WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+        }
+    }
+
+    @Override
+    public void onStartWorkout() {
+        reset();
+        WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+    }
+
+    @Override
+    public void onRestWorkout() {
+        stopTimer();
+        countBackground.callOnClick();
+        WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        notificationManager.cancelAll();
+        unregisterReceiver(broadcastReceiver);
+    }
 }
