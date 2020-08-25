@@ -31,6 +31,9 @@ public class WorkoutNotification {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context,"tag");
 
+        String title = workout == null ? "No workout" : workout.getName();
+        String text = currentExercise == null ? "No exercise" : currentExercise.getName();
+
         PendingIntent pendingPrev;
         int prevDrawing;
         if (pos == 0) {
@@ -69,8 +72,8 @@ public class WorkoutNotification {
 
         notification = new NotificationCompat.Builder(context,WORKOUT_ID)
                 .setSmallIcon(R.drawable.circle)
-                .setContentTitle(workout.getName())
-                .setContentText(currentExercise.getName())
+                .setContentTitle(title)
+                .setContentText(text)
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
                 .addAction(prevDrawing,"Previous",pendingPrev)
@@ -84,5 +87,9 @@ public class WorkoutNotification {
 
         notificationManagerCompat.notify(1,notification);
     }
+    public static void createNotification(Context context){
+        createNotification(context,null,null,0,1);
+    }
+
 
 }

@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
 
             registerReceiver(broadcastReceiver, new IntentFilter("TRACK_WORKOUT"));
             startService(new Intent(getBaseContext(), OnClearService.class));
+            createNotiNoWorkout();
         }
 
         getWorkouts();
@@ -272,7 +273,6 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                 Exercise current = exercises.get(currentExercise);
                 maxSets = current.getSets();
                 showExercise.setText(current.getName());
-                onNextExercise(true);
             } else if(!exercises.isEmpty()) {
                 setupExercises();
             }
@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
         } else {
             rightExercise.setVisibility(View.VISIBLE);
         }
-
+        onNextExercise(true);
         startTimer();
     }
 
@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                 }
                 resetTimer();
                 WorkoutNotification.rest = true;
+                onStartWorkout(true);
             }
         });
     }
@@ -436,6 +437,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
 
         if(chosenWorkout != null){
             // setup for the workout
+            WorkoutNotification.rest = false;
             showName.setText(chosenWorkout.getName());
             showName.setVisibility(View.VISIBLE);
             timer.cancel();
@@ -446,9 +448,10 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             exercises = chosenWorkout.getExercises();
             if(exercises.size() > 0){
                 setupExercises();
-                WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(0),0,exercises.size());
+                createNotification();
             }else {
                 hideExercise();
+                createNotiNoWorkout();
             }
         }
     }
@@ -549,7 +552,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                         onPrevWorkout(false);
                         break;
                     case WorkoutNotification.START_TIMER:
-                        onStartWorkout();
+                        onStartWorkout(false);
                         break;
                     case WorkoutNotification.REST:
                         // TODO: make it rest after starting
@@ -571,8 +574,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             if(!clicked){
                 leftExercise.callOnClick();
             }
-            WorkoutNotification.rest = false;
-            WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+            createNotification();
         }
     }
 
@@ -582,22 +584,39 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             if(!clicked){
                 rightExercise.callOnClick();
             }
-            WorkoutNotification.rest = false;
-            WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+            createNotification();
         }
     }
 
     @Override
-    public void onStartWorkout() {
-        startTimer();
-        countBackground.callOnClick();
-        WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+    public void onStartWorkout(boolean clicked) {
+        if(!clicked){
+            startTimer();
+            countBackground.callOnClick();
+        }
+        if(chosenWorkout == null && exercises.isEmpty()){
+            createNotiNoWorkout();
+        } else {
+            createNotification();
+        }
     }
 
     @Override
     public void onRestWorkout() {
         countBackground.callOnClick();
+        if(chosenWorkout == null && exercises.isEmpty()){
+            createNotiNoWorkout();
+        } else {
+            createNotification();
+        }
+    }
+
+    private void createNotification(){
         WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+    }
+
+    private void createNotiNoWorkout() {
+        WorkoutNotification.createNotification(MainActivity.this);
     }
 
     @Override
