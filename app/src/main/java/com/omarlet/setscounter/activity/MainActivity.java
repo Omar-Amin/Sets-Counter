@@ -165,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                         Exercise current = exercises.get(currentExercise);
                         maxSets = current.getSets();
                         showExercise.setText(current.getName());
+                        onPrevWorkout(true);
                     }
                 }
 
@@ -271,6 +272,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                 Exercise current = exercises.get(currentExercise);
                 maxSets = current.getSets();
                 showExercise.setText(current.getName());
+                onNextExercise(true);
             } else if(!exercises.isEmpty()) {
                 setupExercises();
             }
@@ -537,20 +539,21 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
         public void onReceive(Context context, Intent intent) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
                 String action = Objects.requireNonNull(intent.getExtras()).getString("action");
-                System.out.println(action);
+
                 assert action != null;
                 switch (action){
                     case WorkoutNotification.PREVIOUS_WORKOUT:
-                        onPrevWorkout();
+                        onPrevWorkout(false);
                         break;
                     case WorkoutNotification.START_TIMER:
-                        onStartWorkout();
-                        break;
-                    case WorkoutNotification.REST:
                         onRestWorkout();
                         break;
+                    case WorkoutNotification.REST:
+                        // TODO: make it rest after starting
+                        onStartWorkout();
+                        break;
                     case WorkoutNotification.NEXT_WORKOUT:
-                        onNextExercise();
+                        onNextExercise(false);
                         break;
                     default:
                         break;
@@ -560,18 +563,21 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
     };
 
     @Override
-    public void onPrevWorkout() {
+    public void onPrevWorkout(boolean clicked) {
         if(!exercises.isEmpty() && leftExercise.getVisibility() == View.VISIBLE){
-            leftExercise.callOnClick();
+            if(!clicked){
+                leftExercise.callOnClick();
+            }
             WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
         }
     }
 
     @Override
-    public void onNextExercise() {
+    public void onNextExercise(boolean clicked) {
         if(!exercises.isEmpty() && rightExercise.getVisibility() == View.VISIBLE){
-            System.out.println("hello");
-            rightExercise.callOnClick();
+            if(!clicked){
+                rightExercise.callOnClick();
+            }
             WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
         }
     }

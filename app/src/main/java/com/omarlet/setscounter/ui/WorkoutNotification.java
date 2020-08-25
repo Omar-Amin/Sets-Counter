@@ -47,7 +47,7 @@ public class WorkoutNotification {
 
         PendingIntent pendingNext;
         int nextDrawing;
-        if (pos == size){
+        if (pos == size - 1){
             pendingNext = null;
             nextDrawing = 0;
         } else {
