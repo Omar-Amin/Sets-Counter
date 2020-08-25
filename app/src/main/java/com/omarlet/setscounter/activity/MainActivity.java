@@ -283,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
 
     @SuppressLint("SetTextI18n")
     private void reset(){
+        WorkoutNotification.rest = false;
         if(exercises.isEmpty()){
             decrement.setVisibility(View.VISIBLE);
             increment.setVisibility(View.VISIBLE);
@@ -326,6 +327,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                     stopTimer.setText("Skip workout");
                 }
                 resetTimer();
+                WorkoutNotification.rest = true;
             }
         });
     }
@@ -534,6 +536,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
         added = amount;
     }
 
+    // action depending on what the user presses on the notification
     BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -546,11 +549,11 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                         onPrevWorkout(false);
                         break;
                     case WorkoutNotification.START_TIMER:
-                        onRestWorkout();
+                        onStartWorkout();
                         break;
                     case WorkoutNotification.REST:
                         // TODO: make it rest after starting
-                        onStartWorkout();
+                        onRestWorkout();
                         break;
                     case WorkoutNotification.NEXT_WORKOUT:
                         onNextExercise(false);
@@ -568,6 +571,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             if(!clicked){
                 leftExercise.callOnClick();
             }
+            WorkoutNotification.rest = false;
             WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
         }
     }
@@ -578,19 +582,20 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             if(!clicked){
                 rightExercise.callOnClick();
             }
+            WorkoutNotification.rest = false;
             WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
         }
     }
 
     @Override
     public void onStartWorkout() {
-        reset();
+        startTimer();
+        countBackground.callOnClick();
         WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
     }
 
     @Override
     public void onRestWorkout() {
-        stopTimer();
         countBackground.callOnClick();
         WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
     }

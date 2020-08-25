@@ -25,6 +25,8 @@ public class WorkoutNotification {
 
     public static Notification notification;
 
+    public static boolean rest = false;
+
     public static void createNotification(Context context, Workout workout, Exercise currentExercise, int pos, int size){
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
         MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context,"tag");
@@ -41,9 +43,17 @@ public class WorkoutNotification {
             prevDrawing = R.drawable.left_exercise;
         }
 
-        Intent intentRest = new Intent(context, NotificationService.class)
-                .setAction(START_TIMER);
-        PendingIntent pendingStart = PendingIntent.getBroadcast(context,0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingStart;
+        int restDrawing;
+        if (rest) {
+            Intent intentRest = new Intent(context, NotificationService.class).setAction(REST);
+            restDrawing = R.drawable.rest_notification;
+            pendingStart = PendingIntent.getBroadcast(context,0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            Intent intentRest = new Intent(context, NotificationService.class).setAction(START_TIMER);
+            restDrawing = R.drawable.start_notification;
+            pendingStart = PendingIntent.getBroadcast(context,0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
+        }
 
         PendingIntent pendingNext;
         int nextDrawing;
@@ -64,7 +74,7 @@ public class WorkoutNotification {
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
                 .addAction(prevDrawing,"Previous",pendingPrev)
-                .addAction(R.drawable.circle, "Start",pendingStart)
+                .addAction(restDrawing, "Start",pendingStart)
                 .addAction(nextDrawing,"Next",pendingNext)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(0, 1, 2)
