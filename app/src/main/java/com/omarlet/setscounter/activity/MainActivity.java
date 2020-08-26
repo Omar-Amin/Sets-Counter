@@ -55,13 +55,13 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
     private List<Workout> workouts = new ArrayList<>();
     private List<Exercise> exercises = new ArrayList<>();
     private RecyclerView workoutList;
-    private Workout chosenWorkout;
+    public static Workout chosenWorkout;
     private ImageButton leftExercise, rightExercise;
 
-    private int sets = 0;
+    public static int sets = 0;
     private int maxSets = 0;
     private int exerciseLeft = 0;
-    private int currentExercise = 0;
+    public static int currentExercise = 0;
 
     NotificationManager notificationManager;
 
@@ -344,14 +344,17 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                 sets++;
                 if(sets == maxSets+1 && (exerciseLeft == 0 || exercises.isEmpty())) {
                     counter.setText("Finished");
+                    sets = 0;
                     nextWorkoutBtn();
                 } else if(sets == maxSets+1 && !exercises.isEmpty()){
                     counter.setText("Next");
+                    sets = 0;
                     nextWorkoutBtn();
                 } else {
                     setsText.setText(String.valueOf(sets));
                     resetTimer();
                 }
+                onStartWorkout(true);
             }
         });
     }
@@ -448,11 +451,11 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             exercises = chosenWorkout.getExercises();
             if(exercises.size() > 0){
                 setupExercises();
-                createNotification();
-            }else {
+            } else {
                 hideExercise();
-                createNotiNoWorkout();
             }
+
+            onStartWorkout(true);
         }
     }
 
@@ -585,6 +588,8 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                 rightExercise.callOnClick();
             }
             createNotification();
+        } else {
+            createNotiNoWorkout();
         }
     }
 
@@ -593,12 +598,14 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
         if(!clicked){
             startTimer();
             countBackground.callOnClick();
-        }
-        if(chosenWorkout == null && exercises.isEmpty()){
-            createNotiNoWorkout();
         } else {
-            createNotification();
+            if(chosenWorkout == null && exercises.isEmpty()){
+                createNotiNoWorkout();
+            } else {
+                createNotification();
+            }
         }
+
     }
 
     @Override
@@ -612,7 +619,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
     }
 
     private void createNotification(){
-        WorkoutNotification.createNotification(MainActivity.this,chosenWorkout,exercises.get(currentExercise), currentExercise,exercises.size());
+        WorkoutNotification.createNotification(MainActivity.this,exercises.get(currentExercise), currentExercise,exercises.size());
     }
 
     private void createNotiNoWorkout() {

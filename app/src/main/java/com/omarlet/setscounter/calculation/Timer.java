@@ -2,6 +2,7 @@ package com.omarlet.setscounter.calculation;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
@@ -12,6 +13,9 @@ import android.widget.TextView;
 import androidx.core.content.res.ResourcesCompat;
 
 import com.omarlet.setscounter.R;
+import com.omarlet.setscounter.activity.MainActivity;
+import com.omarlet.setscounter.model.Workout;
+import com.omarlet.setscounter.ui.WorkoutNotification;
 
 public class Timer extends CountDownTimer {
 
@@ -22,6 +26,7 @@ public class Timer extends CountDownTimer {
     private final Drawable progressSecond;
     private final Drawable progressThird;
     private RelativeLayout layout;
+    private Context context;
 
     public Timer(long millisInFuture, long countDownInterval, Activity main) {
         super(millisInFuture, countDownInterval);
@@ -32,6 +37,7 @@ public class Timer extends CountDownTimer {
         this.progressSecond = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar_secondphase, null);
         this.progressThird = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar_thirdphase, null);
         this.layout = main.findViewById(R.id.mainBackground);
+        this.context = main.getBaseContext();
     }
 
     long prev = 0;
@@ -52,12 +58,11 @@ public class Timer extends CountDownTimer {
         progressBar.setProgress(progressUpdate);
 
         // it was cool and all, but also kinda distracting
-        /*
-        if(prev != seconds){
+
+        /* if(prev != seconds){
             changeColor();
             prev = seconds;
-        }
-        */
+        } */
 
         // maybe for later
         /*
@@ -68,11 +73,24 @@ public class Timer extends CountDownTimer {
         }
          */
 
+        String time;
         if(seconds < 10){
-            counter.setText(minutes + ":0" + seconds);
+            time = minutes + ":0" + seconds;
         }else{
-            counter.setText(minutes + ":" + seconds);
+            time = minutes + ":" + seconds;
         }
+        counter.setText(time);
+
+        // updates the notification so it can see how long rest time you have taken
+        Workout workout = MainActivity.chosenWorkout;
+        int pos = MainActivity.currentExercise;
+        if(workout != null && prev != seconds){
+            WorkoutNotification.createNotification(context,workout.getExercises().get(pos),pos,workout.getExercises().size(),time);
+        } else if (prev != seconds) {
+            WorkoutNotification.createNotification(context,null,0,1,time);
+        }
+        prev = seconds;
+
     }
 
     private boolean oneDown = false;

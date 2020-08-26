@@ -11,8 +11,8 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import com.omarlet.setscounter.R;
+import com.omarlet.setscounter.activity.MainActivity;
 import com.omarlet.setscounter.model.Exercise;
-import com.omarlet.setscounter.model.Workout;
 import com.omarlet.setscounter.services.NotificationService;
 
 public class WorkoutNotification {
@@ -27,11 +27,10 @@ public class WorkoutNotification {
 
     public static boolean rest = false;
 
-    public static void createNotification(Context context, Workout workout, Exercise currentExercise, int pos, int size){
+    public static void createNotification(Context context, Exercise currentExercise, int pos, int size, String time) {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(context);
-        MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context,"tag");
+        MediaSessionCompat mediaSessionCompat = new MediaSessionCompat(context, "tag");
 
-        String title = workout == null ? "No workout" : workout.getName();
         String text = currentExercise == null ? "No exercise" : currentExercise.getName();
 
         PendingIntent pendingPrev;
@@ -42,7 +41,7 @@ public class WorkoutNotification {
         } else {
             Intent intentPrev = new Intent(context, NotificationService.class)
                     .setAction(PREVIOUS_WORKOUT);
-            pendingPrev = PendingIntent.getBroadcast(context,0, intentPrev, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingPrev = PendingIntent.getBroadcast(context, 0, intentPrev, PendingIntent.FLAG_UPDATE_CURRENT);
             prevDrawing = R.drawable.left_exercise;
         }
 
@@ -51,44 +50,49 @@ public class WorkoutNotification {
         if (rest) {
             Intent intentRest = new Intent(context, NotificationService.class).setAction(REST);
             restDrawing = R.drawable.rest_notification;
-            pendingStart = PendingIntent.getBroadcast(context,0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingStart = PendingIntent.getBroadcast(context, 0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
         } else {
             Intent intentRest = new Intent(context, NotificationService.class).setAction(START_TIMER);
             restDrawing = R.drawable.start_notification;
-            pendingStart = PendingIntent.getBroadcast(context,0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingStart = PendingIntent.getBroadcast(context, 0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
         PendingIntent pendingNext;
         int nextDrawing;
-        if (pos == size - 1){
+        if (pos == size - 1) {
             pendingNext = null;
             nextDrawing = 0;
         } else {
             Intent intentNext = new Intent(context, NotificationService.class)
                     .setAction(NEXT_WORKOUT);
-            pendingNext = PendingIntent.getBroadcast(context,0, intentNext, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingNext = PendingIntent.getBroadcast(context, 0, intentNext, PendingIntent.FLAG_UPDATE_CURRENT);
             nextDrawing = R.drawable.right_exercise;
         }
 
-        notification = new NotificationCompat.Builder(context,WORKOUT_ID)
+        notification = new NotificationCompat.Builder(context, WORKOUT_ID)
                 .setSmallIcon(R.drawable.circle)
-                .setContentTitle(title)
-                .setContentText(text)
+                .setContentTitle(text)
+                .setContentText(time + " Sets: " + MainActivity.sets)
                 .setOnlyAlertOnce(true)
                 .setShowWhen(false)
-                .addAction(prevDrawing,"Previous",pendingPrev)
-                .addAction(restDrawing, "Start",pendingStart)
-                .addAction(nextDrawing,"Next",pendingNext)
+                .addAction(prevDrawing, "Previous", pendingPrev)
+                .addAction(restDrawing, "Start", pendingStart)
+                .addAction(nextDrawing, "Next", pendingNext)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setShowActionsInCompactView(0, 1, 2)
                         .setMediaSession(mediaSessionCompat.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .build();
 
-        notificationManagerCompat.notify(1,notification);
+        notificationManagerCompat.notify(1, notification);
     }
-    public static void createNotification(Context context){
-        createNotification(context,null,null,0,1);
+
+    public static void createNotification(Context context) {
+        createNotification(context, null, 0, 1);
+    }
+
+    public static void createNotification(Context context , Exercise currentExercise, int pos, int size) {
+        createNotification(context,currentExercise,pos,size, "0:00");
     }
 
 
