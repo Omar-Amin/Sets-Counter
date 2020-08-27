@@ -5,9 +5,7 @@ An app for Android to keep track of the sets left in the current workout, which 
 # Screenshots
 (Haven't finished yet)
 
-![Start](screenshots/start.png){ width=50% }
-![Workout list](screenshots/workout-list.png)
-![Add workout](screenshots/add-workout.png)
-![Delete workout](screenshots/delete-workout.png)
-![Choose workout](screenshots/choose-workout.png)
-![Notification](screenshots/notification.png)
+<img src="screenshots/start.png" width="48%"> <img src="screenshots/workout-list.png" width="48%"> 
+<img src="screenshots/add-workout.png" width="48%"> <img src="screenshots/delete-workout.png" width="48%"> 
+<img src="screenshots/choose-workout.png" width="48%"> <img src="screenshots/notification.png" width="48%">
+
