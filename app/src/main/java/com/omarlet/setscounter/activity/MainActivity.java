@@ -578,6 +578,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                 leftExercise.callOnClick();
             }
             createNotification();
+            
         }
     }
 
