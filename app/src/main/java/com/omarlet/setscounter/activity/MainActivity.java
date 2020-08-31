@@ -148,6 +148,9 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
         rightExercise.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(exerciseLeft >= 2){
+                    rightExercise.startAnimation(btnAnim);
+                }
                 nextWorkout();
             }
         });
@@ -159,15 +162,17 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             }
 
             private void previousWorkout() {
-                if(chosenWorkout != null){
-                    if(currentExercise >= 1){
-                        exerciseLeft++;
-                        currentExercise--;
-                        Exercise current = exercises.get(currentExercise);
-                        maxSets = current.getSets();
-                        showExercise.setText(current.getName());
-                        onPrevWorkout(true);
-                    }
+                if(currentExercise >= 2){
+                    leftExercise.startAnimation(btnAnim);
+                }
+
+                if(currentExercise >= 1){
+                    exerciseLeft++;
+                    currentExercise--;
+                    Exercise current = exercises.get(currentExercise);
+                    maxSets = current.getSets();
+                    showExercise.setText(current.getName());
+                    onPrevWorkout(true);
                 }
 
                 reset();
