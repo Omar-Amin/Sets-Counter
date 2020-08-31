@@ -252,7 +252,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
     }
 
     private void updateList() {
-        workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this,workouts, this));
+        workoutList.setAdapter(new WorkoutRecyclerView(MainActivity.this, workouts, this));
     }
 
     // this is the start after starting/finishing a workout/exercise
@@ -600,7 +600,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             startTimer();
             countBackground.callOnClick();
         } else {
-            if(chosenWorkout == null && exercises.isEmpty()){
+            if(chosenWorkout == null || exercises.isEmpty()){
                 createNotiNoWorkout();
             } else {
                 createNotification();

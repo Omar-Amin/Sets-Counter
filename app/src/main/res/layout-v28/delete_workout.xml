@@ -34,16 +34,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete"
-            android:layout_marginLeft="10dp"
             android:background="@drawable/save"
-            android:layout_toRightOf="@id/cancelDeletion"
             android:textAllCaps="false"
             android:layout_toEndOf="@id/cancelDeletion"
             android:layout_marginStart="10dp" />
 
         <Button
             android:id="@+id/cancelDeletion"
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
             android:textAllCaps="false"
             android:layout_height="wrap_content"

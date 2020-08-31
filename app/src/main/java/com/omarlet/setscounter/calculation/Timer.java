@@ -4,13 +4,10 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.CountDownTimer;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import androidx.core.content.res.ResourcesCompat;
 
 import com.omarlet.setscounter.R;
 import com.omarlet.setscounter.activity.MainActivity;
@@ -22,9 +19,6 @@ public class Timer extends CountDownTimer {
     private TextView counter;
     private final long secondsFuture;
     private ProgressBar progressBar;
-    private final Drawable progressFirst;
-    private final Drawable progressSecond;
-    private final Drawable progressThird;
     private RelativeLayout layout;
     private Context context;
 
@@ -33,9 +27,6 @@ public class Timer extends CountDownTimer {
         secondsFuture = millisInFuture;
         this.counter = main.findViewById(R.id.counter);
         this.progressBar = main.findViewById(R.id.countProgress);
-        this.progressFirst = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar, null);
-        this.progressSecond = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar_secondphase, null);
-        this.progressThird = ResourcesCompat.getDrawable(main.getResources(), R.drawable.progress_bar_thirdphase, null);
         this.layout = main.findViewById(R.id.mainBackground);
         this.context = main.getBaseContext();
     }

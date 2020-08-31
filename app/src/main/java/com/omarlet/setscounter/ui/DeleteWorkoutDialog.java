@@ -22,6 +22,7 @@ public class DeleteWorkoutDialog extends Dialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.delete_workout);
+
         Button deleteWorkout = findViewById(R.id.deleteWorkoutPopup);
         Button cancel = findViewById(R.id.cancelDeletion);
 
