@@ -71,6 +71,7 @@
         android:layout_below="@id/showName"
         android:layout_marginTop="45dp"/>
 
+
     <TextView
         android:text="@string/_4"
         android:textColor="@android:color/background_light"

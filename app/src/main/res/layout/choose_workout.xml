@@ -2,34 +2,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/workoutSlider"
     android:background="#33000000">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#fff"
+        android:layout_height="90dp"
         android:layout_alignParentBottom="true"
         android:id="@+id/listLayout"
-        android:orientation="horizontal">
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:text="@string/add_a_new_workout"
-            android:paddingTop="1dp"
-            android:background="@drawable/add_workout"
-            android:textAllCaps="false"
-            android:textColor="#FF3838"
-            android:textSize="32sp"
-            android:id="@+id/addWorkout"
-            android:gravity="center_horizontal" />
+        android:orientation="horizontal"
+        android:background="@drawable/slider_background">
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/workoutList"
-            android:layout_below="@id/addWorkout"/>
+            android:layout_marginTop="30dp"
+            android:id="@+id/workoutList" />
+
 
     </RelativeLayout>
 
@@ -37,5 +27,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/background" />
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:fontFamily="monospace"
+        android:text="@string/increment"
+        android:textSize="45sp"
+        android:textColor="#fff"
+        tools:targetApi="jelly_bean"
+        android:paddingBottom="2dp"
+        android:background="@drawable/add_workout"
+        android:textAllCaps="false"
+        android:id="@+id/addWorkout"
+        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/listLayout"
+        android:layout_marginBottom="-25dp"/>
 
 </RelativeLayout>

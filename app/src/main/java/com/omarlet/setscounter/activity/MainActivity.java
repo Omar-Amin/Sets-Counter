@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                     updateList();
                     // background in order to make it "dark" and clickable
                     background = viewGroup.findViewById(R.id.background);
-                    final TextView addWorkout = viewGroup.findViewById(R.id.addWorkout);
+                    final Button addWorkout = viewGroup.findViewById(R.id.addWorkout);
                     final RelativeLayout listViewWorkout = viewGroup.findViewById(R.id.listLayout);
 
                     // calculating the size of the menu according to the screen size
@@ -217,15 +217,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                     background.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            listViewWorkout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_down));
-                            Handler handler = new Handler();
-                            // let the animation play before actually closing it
-                            handler.postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    popupMenu.dismiss();
-                                }
-                            }, 175);
+                            popupMenu.dismiss();
                             opened = false;
                         }
                     });
@@ -240,8 +232,6 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                         }
                     });
 
-                    listViewWorkout.startAnimation(AnimationUtils.loadAnimation(MainActivity.this,R.anim.slide_up));
-                    popupMenu.setAnimationStyle(Animation.ABSOLUTE);
                     popupMenu.showAsDropDown(chooseWorkout);
                 }
 

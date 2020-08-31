@@ -17,9 +17,10 @@
         android:gravity="center_horizontal"
         android:text="@string/are_you_sure_you_want_to_delete_it"
         android:textAlignment="center"
-        android:textColor="#000"
+        android:textColor="#5C5C5C"
         android:textSize="19sp"
-        app:fontFamily="sans-serif-condensed-medium" />
+        android:textStyle="bold"
+        app:fontFamily="sans-serif" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -33,24 +34,26 @@
             android:id="@+id/deleteWorkoutPopup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete"
+            android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/save"
-            android:layout_toRightOf="@id/cancelDeletion"
-            android:textAllCaps="false"
             android:layout_toEndOf="@id/cancelDeletion"
-            android:layout_marginStart="10dp" />
+            android:layout_toRightOf="@id/cancelDeletion"
+            android:background="@drawable/save"
+            android:text="@string/delete"
+            android:textAllCaps="false"
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/cancelDeletion"
-            android:layout_marginRight="10dp"
             android:layout_width="wrap_content"
-            android:textAllCaps="false"
             android:layout_height="wrap_content"
-            android:textColor="#f66"
+            android:layout_marginEnd="10dp"
+            android:layout_marginRight="10dp"
             android:background="#00FFFFFF"
             android:text="@string/cancel"
-            android:layout_marginEnd="10dp" />
+            android:textAllCaps="false"
+            android:textColor="#f66"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 

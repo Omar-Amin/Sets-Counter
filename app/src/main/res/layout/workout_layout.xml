@@ -8,15 +8,15 @@
     android:id="@+id/workoutLayout">
 
     <Button
+        android:id="@+id/workoutListName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:background="#00000000"
         android:text="@string/workout_name"
+        android:textAllCaps="false"
         android:textColor="#f66"
         android:textSize="28sp"
-        android:textAllCaps="false"
-        android:background="@drawable/add_workout"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/workoutListName"
         tools:ignore="RelativeOverlap" />
 
     <ImageButton
