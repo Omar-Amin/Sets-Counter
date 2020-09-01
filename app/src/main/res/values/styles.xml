@@ -32,4 +32,9 @@
         <item name="android:popupBackground">#f66</item>
     </style>
 
+    <style name="SlideAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+
 </resources>

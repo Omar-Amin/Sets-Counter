@@ -192,6 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                     opened = true;
                     LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(LAYOUT_INFLATER_SERVICE);
                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.choose_workout,null);
+                    ViewGroup backgroundView = (ViewGroup) inflater.inflate(R.layout.slider_background,null);
 
                     // updates recycler view in the slider
                     setupWorkout(viewGroup);
@@ -214,10 +215,13 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                     background.setLayoutParams(backgroundParams);
 
                     final PopupWindow popupMenu = new PopupWindow(viewGroup, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+                    final PopupWindow staticBackground = new PopupWindow(backgroundView, ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+
                     background.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             popupMenu.dismiss();
+                            staticBackground.dismiss();
                             opened = false;
                         }
                     });
@@ -232,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                         }
                     });
 
+                    popupMenu.setAnimationStyle(R.style.SlideAnimation);
+                    staticBackground.setAnimationStyle(Animation.ABSOLUTE);
+                    staticBackground.showAsDropDown(chooseWorkout);
                     popupMenu.showAsDropDown(chooseWorkout);
                 }
 
