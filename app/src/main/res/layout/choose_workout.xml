@@ -45,4 +45,12 @@
         android:layout_above="@id/listLayout"
         android:layout_marginBottom="-25dp"/>
 
+    <View
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:background="@drawable/add_workout_background"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/listLayout"
+        android:layout_marginBottom="-32dp"/>
+
 </RelativeLayout>
