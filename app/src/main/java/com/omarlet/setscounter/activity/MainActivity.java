@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
     private int exerciseLeft = 0;
     public static int currentExercise = 0;
 
+    public static boolean start = true;
+
     NotificationManager notificationManager;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -268,6 +270,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
     }
 
     private void nextWorkout(){
+        start = true;
         if(chosenWorkout != null){
             if(exerciseLeft > 0){
                 exerciseLeft--;
@@ -319,6 +322,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
+                start = false;
                 decrement.setVisibility(View.INVISIBLE);
                 increment.setVisibility(View.INVISIBLE);
                 stopTimer.setVisibility(View.VISIBLE);
@@ -329,7 +333,6 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
                     stopTimer.setText("Skip workout");
                 }
                 resetTimer();
-                WorkoutNotification.rest = true;
                 onStartWorkout(true);
             }
         });
@@ -341,17 +344,20 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
+                WorkoutNotification.rest = false;
                 timer.cancel();
                 counter.setText("Rest");
                 sets++;
-                if(sets == maxSets+1 && (exerciseLeft == 0 || exercises.isEmpty())) {
+                if(sets == maxSets + 1 && (exerciseLeft == 0 || exercises.isEmpty())) {
                     counter.setText("Finished");
                     sets = 0;
                     nextWorkoutBtn();
+                    start = true;
                 } else if(sets == maxSets+1 && !exercises.isEmpty()){
                     counter.setText("Next");
                     sets = 0;
                     nextWorkoutBtn();
+                    start = true;
                 } else {
                     setsText.setText(String.valueOf(sets));
                     resetTimer();
@@ -366,6 +372,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View view) {
+                WorkoutNotification.rest = true;
                 timer.start();
                 setsText.setText(String.valueOf(sets));
                 stopTimer();

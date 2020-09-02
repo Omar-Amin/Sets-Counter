@@ -49,11 +49,15 @@ public class WorkoutNotification {
         int restDrawing;
         if (rest) {
             Intent intentRest = new Intent(context, NotificationService.class).setAction(REST);
-            restDrawing = R.drawable.rest_notification;
+            restDrawing = R.drawable.pause_timer;
             pendingStart = PendingIntent.getBroadcast(context, 0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
-        } else {
+        } else if(MainActivity.start){
             Intent intentRest = new Intent(context, NotificationService.class).setAction(START_TIMER);
             restDrawing = R.drawable.start_notification;
+            pendingStart = PendingIntent.getBroadcast(context, 0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
+        } else {
+            Intent intentRest = new Intent(context, NotificationService.class).setAction(REST);
+            restDrawing = R.drawable.rest_notification;
             pendingStart = PendingIntent.getBroadcast(context, 0, intentRest, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
