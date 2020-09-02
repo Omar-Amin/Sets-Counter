@@ -15,7 +15,7 @@
         android:background="#00000000"
         android:text="@string/workout_name"
         android:textAllCaps="false"
-        android:textColor="#f66"
+        android:textColor="#FF5656"
         android:textSize="28sp"
         tools:ignore="RelativeOverlap" />
 

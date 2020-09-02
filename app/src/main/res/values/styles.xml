@@ -37,4 +37,10 @@
         <item name="android:windowExitAnimation">@anim/slide_down</item>
     </style>
 
+    <style name="ExerciseTheme">
+        <item name="colorControlNormal">#80FFFFFF</item>
+        <item name="colorControlActivated">#FFFFFF</item>
+        <item name="colorControlHighlight">#4DFFFFFF</item>
+    </style>
+
 </resources>

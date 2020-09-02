@@ -13,7 +13,7 @@
         android:textSize="25sp"
         android:hint="@string/choose_workout_name"
         android:layout_alignParentTop="true"
-        android:cursorVisible="false"
+        android:cursorVisible="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="25dp"
         android:textColor="#f66"

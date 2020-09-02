@@ -15,7 +15,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -192,6 +191,7 @@ public class MainActivity extends AppCompatActivity implements OnWorkoutClick, T
             public void onClick(View view) {
                 if(!opened){
                     opened = true;
+                    chooseWorkout.startAnimation(btnAnim);
                     LayoutInflater inflater = (LayoutInflater) getApplication().getSystemService(LAYOUT_INFLATER_SERVICE);
                     @SuppressLint("InflateParams") ViewGroup viewGroup = (ViewGroup) inflater.inflate(R.layout.choose_workout,null);
                     ViewGroup backgroundView = (ViewGroup) inflater.inflate(R.layout.slider_background,null);
